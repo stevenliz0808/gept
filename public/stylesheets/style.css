@@ -1,0 +1,21 @@
+#bg-welcome {
+  background-image: url('../images/welcome-GEPT-PC.png');
+  background-size: cover;
+  min-width: 1500px;
+  width: auto;
+  min-height: 800px;
+  height: auto;
+}
+
+#btn-go {
+  margin-top: 8%;
+  margin-left: 70%;
+  background-color: orange;
+  min-width: 240px;
+  min-height: 120px;
+  border-radius: 60px;
+  border: none;
+  color: aliceblue;
+  font-size: 50px;
+  font-weight: 1000;
+}

@@ -23,6 +23,10 @@ app.get("/test/start", (req, res) => {
   res.render("start-test");
 });
 
+app.get("/test/new", (req, res) => {
+  res.render("listening-test");
+});
+
 app.get("/test", (req, res) => {
   res.render("index");
 });

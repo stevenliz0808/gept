@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const { engine } = require("express-handlebars");
 
+const router = require("./router");
+
 const port = 3000;
 
 app.engine(
@@ -15,25 +17,7 @@ app.set("views", "./views");
 
 app.use(express.static("public"));
 
-app.get("/test/create", (req, res) => {
-  res.render("create-test");
-});
-
-app.get("/test/start", (req, res) => {
-  res.render("start-test");
-});
-
-app.get("/test/new", (req, res) => {
-  res.render("listening-test");
-});
-
-app.get("/test", (req, res) => {
-  res.render("index");
-});
-
-app.get("/", (req, res) => {
-  res.redirect("/test");
-});
+app.use(router);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);

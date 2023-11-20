@@ -14,9 +14,14 @@ router.get("/test/start", (req, res) => {
 
 router.get("/test/new", (req, res) => {
   return ListeningData.findAll({
+    where: { GEPTround: 1},
+    order: ["sort"],
     raw: true,
   })
-    .then((listeningData) => res.render("listening-test", { listeningData }))
+    .then((listeningData) => {
+      res.render("listening-test", { listeningData });
+      console.log(listeningData);
+    })
     .catch((err) => console.log(err));
 });
 

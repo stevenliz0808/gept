@@ -1,3 +1,47 @@
+/* 共通樣式 */
+body {
+  width: 100%;
+  height: 100%;
+}
+
+header {
+  max-height: 120px;
+}
+
+.navbar-nav {
+  padding: 5px;
+}
+
+.nav-link {
+  font-size: 2rem;
+}
+
+#user-name {
+  margin: 0 20px;
+  font-size: 1.5rem;
+}
+
+.container {
+  width: 90%;
+  margin: 3rem auto;
+}
+
+/* create-test-page */
+#twzipcode [name="zipcode"] {
+  display: none;
+}
+
+
+
+/* index-page */
+.background-image {
+  margin: 110px auto;
+  text-align: center;
+}
+
+
+/* new-listening-page */
+
 .options-container {
   display: flex;
   flex-direction: column;
@@ -19,28 +63,66 @@
   font-weight: bolder;
 }
 
+.test {
+  display: flex;
+  font-size: 1.3rem;
+}
+
 .img-topic {
   max-width: 100%;
   max-height: 670px;
 }
 
 li {
-  flex: 1; 
-  text-align: center; 
+  flex: 1;
+  text-align: center;
 }
 
 .progress {
   height: 20px;
 }
 
-.progress1, .progress4 {
+.progress1,
+.progress4 {
   width: 16.65%;
 }
 
-.progress2, .progress3 {
+.progress2,
+.progress3 {
   width: 33.3%;
 }
 
 .progress-bar {
   font-size: 20px;
+}
+
+
+
+/* listening-report */
+
+.test-report {
+  padding: 3rem;
+}
+
+.test-report h3 {
+  text-align: center;
+  color:coral;
+  font-weight: 600;
+}
+
+.test-report h4 {
+  margin-bottom: 1.5rem;
+}
+
+.test-report p {
+  font-size: 1.3rem;
+}
+
+.test-report .red-line {
+  color:crimson;
+  font-weight: 600;
+}
+
+.chart-container {
+  max-height: 400px;
 }

@@ -5,6 +5,8 @@ function main() {
   const counterElement = document.querySelector("#countdown");
   const renderList = document.querySelector(".render-list");
   const pageLink = document.querySelector(".page-link");
+  const correctRateChart = document.querySelector("#correct-rate-chart");
+  const testComparisonChart = document.querySelector("#test-comparison-chart");
 
   if (counterElement) {
     createCounter(counterElement, { initialCount: 1200 });
@@ -36,6 +38,124 @@ function main() {
         });
         data.parentNode.classList.add("active");
       }
+    });
+  }
+
+  if (correctRateChart) {
+    Chart.defaults.font.size = 20;
+    const chart = new Chart(correctRateChart, {
+      type: "bar",
+      data: {
+        labels: ["看圖辨義", "問答", "簡短對話", "短文聽解"],
+        datasets: [
+          {
+            label: "正確率", // tootip 出現的名稱
+            data: [20, 70, 30, 40], // 資料
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.2)", // 第一個 bar 顏色
+              "rgba(54, 162, 235, 0.2)", // 第二個 bar 顏色
+              "rgba(255, 206, 86, 0.2)", // 第三個 bar 顏色
+              "rgba(75, 192, 192, 0.2)", // 第四個 bar 顏色
+            ],
+            borderColor: [
+              "rgba(255,99,132,1)", // 第一個 bar 外框線顏色
+              "rgba(54, 162, 235, 1)", // 第二個 bar 外框線顏色
+              "rgba(255, 206, 86, 1)", // 第三個 bar 外框線顏色
+              "rgba(75, 192, 192, 1)", // 第四個 bar 外框線顏色
+            ],
+            borderWidth: 2, // 外框線寬度
+            barThickness: 60,
+          },
+        ],
+      },
+      options: {
+        maxWidth: 800,
+        maxHeight: 600,
+        indexAxis: "y",
+        scales: {
+          x: {
+            type: "linear",
+            position: "bottom",
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20,
+            },
+          },
+          y: {},
+        },
+        plugins: {
+          annotation: {
+            annotations: {
+              line1: {
+                type: "line",
+                xMin: 60,
+                xMax: 60,
+                borderColor: "rgb(255, 99, 132)",
+                borderWidth: 2,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  if (testComparisonChart) {
+    Chart.defaults.font.size = 20;
+    const chart = new Chart(testComparisonChart, {
+      type: "bar",
+      data: {
+        labels: ["首次答題", "上次答題", "本次答題"],
+        datasets: [
+          {
+            label: "正確率", // tootip 出現的名稱
+            data: [40, 60, 80], // 資料
+            backgroundColor: [
+              "rgba(102, 51, 153, 0.2)",
+              "rgba(255, 153, 0 ,0.2)",
+              "rgba(0, 153, 102, 0.2)",
+            ],
+            borderColor: [
+              "rgba(102, 51, 153, 1)",
+              "rgba(255, 153, 0 ,1)",
+              "rgba(0, 153, 102, 1)",
+            ],
+            borderWidth: 2,
+            barThickness: 60,
+          },
+        ],
+      },
+      options: {
+        maxWidth: 800,
+        maxHeight: 600,
+        indexAxis: "y",
+        scales: {
+          x: {
+            type: "linear",
+            position: "bottom",
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20,
+            },
+          },
+          y: {},
+        },
+        plugins: {
+          annotation: {
+            annotations: {
+              line1: {
+                type: "line",
+                xMin: 60,
+                xMax: 60,
+                borderColor: "rgb(255, 99, 132)",
+                borderWidth: 2,
+              },
+            },
+          },
+        },
+      },
     });
   }
 }

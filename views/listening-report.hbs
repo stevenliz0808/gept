@@ -1,19 +1,41 @@
 {{> navbar}}
-<h1>聽力能力檢測</h1>
-<table class="table w-25">
-  <thead>
-    <tr>
-      <th>個人資料</th>    
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>姓名</th>
-      <td>Mark</td>     
-    </tr>
-    <tr>
-      <th>地址</th>
-      <td>高雄</td>     
-    </tr>
-  </tbody>
-</table>
+<section>
+  <div class="container-fluid test-report">
+    <h3>聽力能力檢測</h3>
+    
+    <div class="basicInfo">
+      <h4>【基本資料】</h4>        
+      <p><strong>姓名：</strong>Steven</p>
+      <p><strong>檢測地址：</strong>高雄</p>
+      <p><strong>檢測日期：</strong>2023年11月23日</p>
+      <p><strong>檢測時間：</strong>2時16分41秒</p>
+    </div>
+    <hr>
+    
+    <div class="result">
+      <h4>【檢測結果】</h4>
+      <p><strong>測試成績：</strong>28分</p>
+      <p><strong>答題正確率：</strong><span class="red-line">23.3%</span>   (答對7題) </p>       
+      <p><strong>通過標準：</strong>72分 (60%，答對18題以上)</p>
+      <p><strong>詳細結果：</strong><span class="red-line">未通過聽力檢測!</span></p>
+    </div>
+    <hr>
+
+    <div>
+      <h4>【答題情形】</h4> 
+      <div class="chart-container">
+        <canvas id="correct-rate-chart"></canvas>
+      </div>
+    </div>
+    <hr>
+
+    <div>
+      <h4>【測驗比較】</h4> 
+      <p><strong>首次測驗：</strong>2023年11月12號 (距今11天)</p>
+      <p><strong>上次測驗：</strong>2023年11月18號 (距今5天)</p>
+      <div class="chart-container">
+        <canvas id="test-comparison-chart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>

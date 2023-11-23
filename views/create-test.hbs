@@ -1,40 +1,45 @@
 {{> navbar}}
 
-<div class="container">
-  <form class="w-50" action="/test/listening/start">
-    <div class="mb-3">
-      <label for="inputChineseName" class="form-label">中文姓名</label>
-      <input
-        type="text"
-        class="form-control"
-        id="inputChineseName"
-        placeholder="Chinese Name"
-      />
-    </div>
-    <div class="mb-3">
-      <label for="inputEnglishName" class="form-label">英文姓名</label>
-      <input
-        type="text"
-        class="form-control"
-        id="inputEnglishName"
-        placeholder="English Name"
-      />
-    </div>
-    <div class="mb-3 w-25">
-      <label for="inputAddress" class="form-label">檢測地址</label>
-      <select class="form-select mb-2" aria-label="Default select example">
-        <option selected>選擇縣市</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
-      <select class="form-select" aria-label="Default select example">
-        <option selected>選擇鄉鎮</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
-    </div>
-    <button type="submit" class="btn btn-primary">確認</button>
-  </form>
-</div>
+<section>
+  <div class="container">
+    <form class="w-50" action="/user/confirm" method="post">
+      <div class="mb-3">
+        <label for="inputChineseName" class="form-label">中文姓名</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inputChineseName"
+          name="name"
+          placeholder="Chinese Name"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="inputEnglishName" class="form-label">英文姓名</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inputEnglishName"
+          name="nameEng"
+          placeholder="English Name"
+          required
+        />
+      </div>
+      <div class="mb-3 w-50">
+        <label for="inputAddress" class="form-label">檢測地址</label>
+        <div id="twzipcode"></div>
+      </div>
+      <button type="submit" class="btn btn-primary">確認</button>
+    </form>
+  </div>
+</section>
+
+
+<script>
+$("#twzipcode").twzipcode({
+css: ["city form-select mb-2", "town form-select"],
+countyName: "city", 
+districtName: "area" ,
+
+});
+</script>

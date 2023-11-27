@@ -3,6 +3,7 @@ const router = express.Router();
 
 const db = require("../models");
 const ListeningData = db.ListeningData;
+const ListeningTestRecord = db.ListeningTestRecord;
 
 router.get("/create", (req, res) => {
   res.render("create-test");
@@ -12,14 +13,15 @@ router.get("/listening/start", (req, res) => {
   res.render("start-test");
 });
 
-router.get("/listening/new", (req, res) => {
+router.get("/listening/new", (req, res, next) => {
   return ListeningData.findAll({
     attributes: [
+      "ID",
       "ans1",
       "ans2",
       "ans3",
       "imgPath",
-      "singleAns",
+      "standardAns",
       "sort",
       "type",
       "voicePath",
@@ -35,8 +37,19 @@ router.get("/listening/new", (req, res) => {
     .catch((err) => next(err));
 });
 
-router.get("/listening/report", (req, res) => {
-  res.render("listening-report");
+router.post("/listening/report", (req, res, next) => {
+  const userId = "10215232970590181";
+  const { myAns, level } = req.body;
+  return ListeningTestRecord.create({
+    StuAccID: userId,
+    Round: 1,
+    Level: level,
+    MyAns: myAns,
+  })
+    .then(() => {
+      res.render("listening-report");
+    })
+    .catch((err) => next(err));
 });
 
 router.get("/reading/start", (req, res) => {
@@ -50,7 +63,7 @@ router.get("/reading/new", (req, res) => {
       "ans2",
       "ans3",
       "imgPath",
-      "singleAns",
+      "standardAns",
       "sort",
       "type",
       "voicePath",
@@ -74,4 +87,4 @@ router.get("/", (req, res) => {
   res.render("index");
 });
 
-module.exports = router
+module.exports = router;

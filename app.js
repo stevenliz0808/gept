@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require("express-session");
 const app = express();
 const { engine } = require("express-handlebars");
 
@@ -21,6 +22,13 @@ app.set("views", "./views");
 app.use(express.static("public"));
 app.use(express.static("node_modules"));
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.use(router);
 app.use(errorHandler)
 

@@ -13,9 +13,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   ListeningData.init(
     {
-      ListeningDataID: {
+      ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        field: "ListeningDataID",
       },
       book: DataTypes.STRING,
       round: DataTypes.INTEGER,
@@ -23,7 +24,10 @@ module.exports = (sequelize, DataTypes) => {
       sort: DataTypes.INTEGER,
       examName: DataTypes.STRING,
       examNameCht: DataTypes.STRING,
-      singleAns: DataTypes.STRING,
+      standardAns: {
+        type: DataTypes.STRING,
+        field: 'singleAns'
+      },
       showItem: DataTypes.INTEGER,
       ans1: DataTypes.STRING,
       ans1Cht: DataTypes.STRING,
@@ -38,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "ListeningData",
+      tableName: "ListeningData",
     }
   );
   return ListeningData;

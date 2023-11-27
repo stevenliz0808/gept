@@ -8,6 +8,10 @@ header {
   max-height: 120px;
 }
 
+hr {
+  margin: 2.5rem 2.5rem 2.5rem 0;
+}
+
 .navbar-nav {
   padding: 5px;
 }
@@ -31,14 +35,11 @@ header {
   display: none;
 }
 
-
-
 /* index-page */
 .background-image {
   margin: 110px auto;
   text-align: center;
 }
-
 
 /* new-listening-page */
 
@@ -49,7 +50,8 @@ header {
 }
 
 .option {
-  margin-bottom: 25px;
+  max-width: 600px;
+  margin: 12px 0;
   border: 3px solid #f8ca45;
   font-size: 1em;
 }
@@ -68,9 +70,21 @@ header {
   font-size: 1.3rem;
 }
 
+.test p {
+  padding: 1rem;
+}
+
 .img-topic {
+  text-align: center;
+}
+
+.img-topic img {
   max-width: 100%;
   max-height: 670px;
+}
+
+.btn-handout {
+  margin-top: auto;
 }
 
 li {
@@ -96,8 +110,6 @@ li {
   font-size: 20px;
 }
 
-
-
 /* listening-report */
 
 .test-report {
@@ -106,7 +118,7 @@ li {
 
 .test-report h3 {
   text-align: center;
-  color:coral;
+  color: coral;
   font-weight: 600;
 }
 
@@ -118,8 +130,8 @@ li {
   font-size: 1.3rem;
 }
 
-.test-report .red-line {
-  color:crimson;
+.red-line {
+  color: crimson;
   font-weight: 600;
 }
 

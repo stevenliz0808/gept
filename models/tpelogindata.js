@@ -13,9 +13,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   TPELoginData.init(
     {
-      TPELoginDataID: {
+      ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        field: "TPELoginDataID",
       },
       name: DataTypes.STRING,
       Identity: DataTypes.INTEGER,
@@ -48,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "TPELoginData",
+      tableName: "TPELoginData",
     }
   );
   return TPELoginData;

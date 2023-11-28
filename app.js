@@ -5,6 +5,7 @@ const dotenv = require("dotenv").config()
 const { engine } = require("express-handlebars");
 
 const router = require("./router");
+const passport = require("./config/passport")
 const handlebarsHelpers = require("./helpers/handlebars-helpers");
 const errorHandler = require("./middlewares/error-handler");
 
@@ -30,6 +31,8 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(router);
 app.use(errorHandler)
 

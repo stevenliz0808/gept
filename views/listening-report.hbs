@@ -1,6 +1,126 @@
 {{> navbar}}
 <section>
   <div class="container-fluid test-report">
-    {{!-- render --}}
+    <h3>聽力能力檢測</h3>
+
+    <div class="basicInfo">
+      <h4>【基本資料】</h4>        
+      <p><strong>姓名：</strong>Steven</p>
+      <p><strong>檢測地址：</strong>高雄</p>
+      <p><strong>檢測日期：</strong>{{currentDate}}</p>
+      <p><strong>檢測時間：</strong>2時16分41秒</p>
+    </div>
+    <hr>
+    
+    <div class="result">
+      <h4>【檢測結果】</h4>
+      <p><strong>測試成績：</strong> {{level}} 分</p>
+      <p><strong>答題正確率：</strong><span class="red-line"> {{accuracy}} %</span>   (答對{{correctAns}}題) </p>       
+      <p><strong>通過標準：</strong>72分 (60%，答對18題以上)</p>
+      <p><strong>詳細結果：</strong><span class="red-line">{{result}}</span></p>
+    </div>
+    <hr>
+    
+    <div>
+      <h4>【測驗比較】</h4> 
+      <p><strong>首次測驗：</strong>2023年11月12號 (距今11天)</p>
+      <p><strong>上次測驗：</strong>2023年11月18號 (距今5天)</p>
+      <p><strong>本次測驗：</strong>{{currentDate}} </p>
+      <div class="chart-container">
+        <canvas id="test-comparison-chart"></canvas>
+      </div>
+    </div>
+    <hr>
+
+    <div>
+      <h4>【答題情形】</h4> 
+      <div class="chart-container">
+        <canvas id="correct-rate-chart"></canvas>
+      </div>
+    </div>
+    <hr>
+
+    <div>
+      <h4>【答題明細】</h4>
+      <p><strong>看圖辯義：</strong>共5題 (每題4分，共20分)<span class="red-line ms-2">得分: <span id="level1">{{level1}}</span>分</span></p>
+      <table class="table text-center mb-3">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">你的答案</th>
+            <th scope="col">是否答對</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each ansDetailArray1}}
+          <tr>
+            <th scope="row">{{this.sort}}</th>
+            <td>{{this.myAns}}</td>
+            <td>{{this.checkedAns}}</td>
+          </tr>
+          {{/each}}      
+        </tbody>
+      </table>
+
+      <p><strong>問答：</strong>共10題 (每題4分，共40分)<span class="red-line ms-2">得分: <span id="level2">{{level2}}</span>分</span></p>
+      <table class="table text-center mb-3">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">你的答案</th>
+            <th scope="col">是否答對</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each ansDetailArray2}}
+          <tr>
+            <th scope="row">{{this.sort}}</th>
+            <td>{{this.myAns}}</td>
+            <td>{{this.checkedAns}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+
+      <p><strong>簡短對話：</strong>共10題 (每題4分，共40分)<span class="red-line ms-2">得分: <span id="level3">{{level3}}</span>分</span></p>
+      <table class="table text-center mb-3">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">你的答案</th>
+            <th scope="col">是否答對</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each ansDetailArray3}}
+          <tr>
+            <th scope="row">{{this.sort}}</th>
+            <td>{{this.myAns}}</td>
+            <td>{{this.checkedAns}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+
+      <p><strong>短文聽解：</strong>共5題 (每題4分，共20分)<span class="red-line ms-2">得分: <span id="level4">{{level4}}</span>分</span></p>
+      <table class="table text-center mb-3">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">你的答案</th>
+            <th scope="col">是否答對</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each ansDetailArray4}}
+          <tr>
+            <th scope="row">{{this.sort}}</th>
+            <td>{{this.myAns}}</td>
+            <td>{{this.checkedAns}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>

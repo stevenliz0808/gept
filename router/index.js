@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const test = require("./test");
 
-const db = require("../models")
-const User = db.TPELoginData
+const db = require("../models");
+const User = db.LoginData;
 
 router.use("/test", test);
 

@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const app = express();
+const dotenv = require("dotenv").config()
 const { engine } = require("express-handlebars");
 
 const router = require("./router");
@@ -24,7 +25,7 @@ app.use(express.static("node_modules"));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: "your-secret-key",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
   })

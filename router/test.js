@@ -39,15 +39,83 @@ router.get("/listening/new", (req, res, next) => {
 
 router.post("/listening/report", (req, res, next) => {
   const userId = "10215232970590181";
-  const { myAns, level } = req.body;
+  const { myAns, checkedAns, level } = req.body;
+  const currentDate = new Date().toLocaleString()
+  
   return ListeningTestRecord.create({
     StuAccID: userId,
     Round: 1,
     Level: level,
     MyAns: myAns,
+    CheckedAns: checkedAns,
+    createDate: currentDate,
   })
     .then(() => {
-      res.render("listening-report");
+      const accuracy = ((level / 120) * 100).toFixed(1);
+      const correctAns = level / 4;
+      const result = level < 72 ? "未通過聽力檢測!" : "通過聽力檢測!";
+
+      const ansDetailArray1 = [];
+      const ansDetailArray2 = [];
+      const ansDetailArray3 = [];
+      const ansDetailArray4 = [];
+      const myAnsArray = myAns.split("").map((num) => {
+        const letters = "ABC";
+        return letters[num - 1];
+      });
+      const checkedAnsArray = checkedAns.split("");
+      let level1 = 0,
+        level2 = 0,
+        level3 = 0,
+        level4 = 0;
+      for (let i = 0; i < 5; i++) {
+        ansDetailArray1[i] = {
+          sort: i + 1,
+          myAns: myAnsArray[i],
+          checkedAns: checkedAnsArray[i],
+        };
+        if (checkedAnsArray[i] === "O") level1 += 4;
+      }
+      for (let i = 5; i < 15; i++) {
+        ansDetailArray2[i] = {
+          sort: i + 1,
+          myAns: myAnsArray[i],
+          checkedAns: checkedAnsArray[i],
+        };
+        if (checkedAnsArray[i] === "O") level2 += 4;
+      }
+      for (let i = 15; i < 25; i++) {
+        ansDetailArray3[i] = {
+          sort: i + 1,
+          myAns: myAnsArray[i],
+          checkedAns: checkedAnsArray[i],
+        };
+        if (checkedAnsArray[i] === "O") level3 += 4;
+      }
+      for (let i = 25; i < 30; i++) {
+        ansDetailArray4[i] = {
+          sort: i + 1,
+          myAns: myAnsArray[i],
+          checkedAns: checkedAnsArray[i],
+        };
+        if (checkedAnsArray[i] === "O") level4 += 4;
+      }
+      res.render("listening-report", {
+        level,
+        level1,
+        level2,
+        level3,
+        level4,
+        accuracy,
+        correctAns,
+        result,
+        ansDetailArray1,
+        ansDetailArray2,
+        ansDetailArray3,
+        ansDetailArray4,
+        currentDate
+      });
+      console.log(currentDate);
     })
     .catch((err) => next(err));
 });

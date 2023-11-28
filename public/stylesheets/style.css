@@ -111,6 +111,13 @@ li {
 }
 
 /* listening-report */
+table {
+  max-width: 800px;
+}
+
+th {
+  width: 200px;
+}
 
 .test-report {
   padding: 3rem;
@@ -136,5 +143,6 @@ li {
 }
 
 .chart-container {
-  max-height: 400px;
+  max-width: 600px;
+  min-width: 400px;
 }

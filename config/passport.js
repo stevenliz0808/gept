@@ -1,5 +1,7 @@
 const passport = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
+const db = require("../models");
+const LoginData = db.LoginData;
 
 passport.use(
   new FacebookStrategy(
@@ -9,22 +11,31 @@ passport.use(
       callbackURL: process.env.FACEBOOK_CALLBACK_URL,
     },
     (accessToken, refreshToken, profile, done) => {
-      const user = {
-        id: profile.id,
-        displayName: profile.displayName,
-      };
-      console.log(user)
-      return done(null, user);
+      LoginData.findByPk(profile.id, { raw: true })
+        .then((user) => {
+          if (user) return done(null, user);
+
+          return LoginData.create({
+            ID: profile.id,
+          }).then((user) => done(null, user));
+        })
+        .catch((err) => done(err));
     }
   )
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user.ID);
 });
 
 passport.deserializeUser((id, done) => {
-  done(null, { id: id, displayName: "User" });
+  return LoginData.findByPk(id, {
+    raw: true,
+  })
+    .then((user) => {
+      done(null, user);
+    })
+    .catch((err) => done(err));
 });
 
-module.exports = passport
+module.exports = passport;

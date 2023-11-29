@@ -28,11 +28,11 @@ module.exports = (sequelize, DataTypes) => {
       UseTime: DataTypes.INTEGER,
       Range: DataTypes.STRING,
       DoneDate: DataTypes.DATE,
+      GEPTabilityTestRecordID: DataTypes.INTEGER,
       CreateDate: {
         type: DataTypes.DATE,
         defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
       },
-      GEPTabilityTestRecordID: DataTypes.INTEGER,
     },
     {
       sequelize,

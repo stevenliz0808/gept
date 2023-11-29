@@ -44,10 +44,10 @@ function main() {
     const btnHandout = document.querySelector(".btn-handout");
 
     btnHandout.addEventListener("click", (event) => {
-      if (myAnsArray.includes()) {
-        window.alert("尚未完成作答!");
-        return event.preventDefault();
-      }
+      // if (myAnsArray.includes()) {
+      //   window.alert("尚未完成作答!");
+      //   return event.preventDefault();
+      // }
       const myAns = document.querySelector("#myAns");
       const checkedAns = document.querySelector("#checkedAns");
       const level = document.querySelector("#level");

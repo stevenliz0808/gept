@@ -1,0 +1,6 @@
+{{#unless userName}}
+  <a href="/auth/facebook" class="btn btn-info">登入</a>
+{{/unless}}
+{{#if userName}}
+  <a href="/logout" class="btn btn-info">登出</a>
+{{/if}}

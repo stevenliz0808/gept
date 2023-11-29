@@ -4,9 +4,13 @@ const router = express.Router();
 const db = require("../models");
 const ListeningData = db.ListeningData;
 const ListeningTestRecord = db.ListeningTestRecord;
+const LoginData = db.LoginData;
 
 router.get("/create", (req, res) => {
-  res.render("create-test");
+  const id = req.user.ID;
+  return LoginData.findByPk(id, { raw: true }).then((user) => {
+    res.render("create-test", { user });
+  });
 });
 
 router.get("/listening/start", (req, res) => {
@@ -14,37 +18,49 @@ router.get("/listening/start", (req, res) => {
 });
 
 router.get("/listening/new", (req, res, next) => {
-  return ListeningData.findAll({
-    attributes: [
-      "ID",
-      "ans1",
-      "ans2",
-      "ans3",
-      "imgPath",
-      "standardAns",
-      "sort",
-      "type",
-      "voicePath",
-      "GEPTround",
-    ],
-    where: { GEPTround: 1 },
-    order: ["sort"],
+  const id = req.user.ID;
+  let GEPTround = 0
+  ListeningTestRecord.findAll({
+    attributes: ["Round"],
+    where: { StuAccID: id },
+    order: [["Round", "DESC"]],
     raw: true,
   })
+    .then((rounds) => {
+      GEPTround = rounds.length ? rounds[0].Round + 1 : 1;
+      if (GEPTround > 9) throw new Error("所有試題皆已完成!")
+      return ListeningData.findAll({
+        attributes: [
+          "ID",
+          "ans1",
+          "ans2",
+          "ans3",
+          "imgPath",
+          "standardAns",
+          "sort",
+          "type",
+          "voicePath",
+          "GEPTround",
+        ],
+        where: { GEPTround },
+        order: ["sort"],
+        raw: true,
+      });
+    })
     .then((listeningData) => {
-      res.render("new-test", { data: listeningData });
+      res.render("new-test", { data: listeningData, GEPTround });
     })
     .catch((err) => next(err));
 });
 
 router.post("/listening/report", (req, res, next) => {
-  const userId = "10215232970590181";
-  const { myAns, checkedAns, level } = req.body;
-  const currentDate = new Date().toLocaleString()
-  
+  const userId = req.user.ID;
+  const { myAns, checkedAns, level, round } = req.body;
+  const currentDate = new Date().toLocaleString();
+
   return ListeningTestRecord.create({
     StuAccID: userId,
-    Round: 1,
+    Round: round,
     Level: level,
     MyAns: myAns,
     CheckedAns: checkedAns,
@@ -113,7 +129,7 @@ router.post("/listening/report", (req, res, next) => {
         ansDetailArray2,
         ansDetailArray3,
         ansDetailArray4,
-        currentDate
+        currentDate,
       });
       console.log(currentDate);
     })
@@ -152,7 +168,8 @@ router.get("/reading/report", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  res.render("index");
+  const isIndex = 1;
+  res.render("index", { isIndex });
 });
 
 module.exports = router;

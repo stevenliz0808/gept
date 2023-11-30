@@ -51,8 +51,7 @@ router.post("/user/confirm", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  const isIndex = 1
-  res.render("index", {isIndex});
+  res.render("index");
 });
 
 module.exports = router;

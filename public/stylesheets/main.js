@@ -7,7 +7,7 @@ function main() {
   const renderList = document.querySelector(".render-list");
   const pageLink = document.querySelector(".page-link");
   const testReport = document.querySelector(".test-report");
-  const navbarToggler = document.querySelector(".navbar-toggler")
+  const navbarToggler = document.querySelector(".navbar-toggler");
   const twzipcode = document.querySelector("#twzipcode");
 
   if (counterElement) {
@@ -26,12 +26,18 @@ function main() {
       if (data.classList.contains("option")) {
         const options = document.querySelectorAll(".option");
         options.forEach((option) => {
-          option.classList.remove("option-color");
+          option.classList.remove("chosen-color");
         });
-        data.classList.add("option-color");
+        data.classList.add("chosen-color");
 
         // 紀錄答案
         myAnsArray[data.name - 1] = data.value;
+
+        //題碼顯示答案
+        const questionNum = document.querySelector(`#question${data.name}`);
+        const letters = "ABC";
+        questionNum.textContent = letters[data.value - 1];
+        questionNum.classList.add("chosen-color");
       }
       // 點題號
       if (data.classList.contains("page-link")) {
@@ -40,6 +46,16 @@ function main() {
           pageItem.classList.remove("active");
         });
         data.parentNode.classList.add("active");
+
+        //顯示已選答案
+        const optionsContainer = document.querySelector(".options-container");
+        const questionId = Number(data.dataset.questionId);
+        const myAns = myAnsArray[questionId - 1];
+
+        if (myAns !== undefined) {
+          const option = optionsContainer.querySelector(`:nth-child(${myAns})`);
+          option.classList.add("chosen-color");
+        }
       }
     });
 
@@ -62,13 +78,13 @@ function main() {
   }
 
   if (testReport) {
-    const d1 = document.querySelector("#level1").textContent *5
+    const d1 = document.querySelector("#level1").textContent * 5;
     const d2 = document.querySelector("#level2").textContent * 2.5;
     const d3 = document.querySelector("#level3").textContent * 2.5;
     const d4 = document.querySelector("#level4").textContent * 5;
-    
-    renderCorrectRateChart(d1,d2,d3,d4);
-    renderTestComparisonChart(50,60,90);
+
+    renderCorrectRateChart(d1, d2, d3, d4);
+    renderTestComparisonChart(50, 60, 90);
   }
 
   if (navbarToggler) {
@@ -174,7 +190,7 @@ function showContent(data) {
   standardAnsArray[data.sort - 1] = data.standardAns;
 }
 
-function renderCorrectRateChart(d1,d2,d3,d4) {
+function renderCorrectRateChart(d1, d2, d3, d4) {
   const correctRateChart = document.querySelector("#correct-rate-chart");
   Chart.defaults.font.size = 16;
   const chart = new Chart(correctRateChart, {
@@ -284,6 +300,9 @@ function renderTestComparisonChart(d1, d2, d3) {
               borderWidth: 1,
             },
           },
+        },
+        datalabels: {
+          color: "#36A2EB",
         },
       },
     },

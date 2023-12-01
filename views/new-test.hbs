@@ -13,7 +13,7 @@
         </span>
       </div>
       <div class="d-flex align-items-center">
-        <form action="/test/listening/report" method="post" class="d-flex h-100">
+        <form action="/test/listening/report" method="post" class="d-flex h-100 answer-sheet">
         <input type="text" id="myAns" name="myAns" value="" hidden>
         <input type="text" id="checkedAns" name="checkedAns" value="" hidden>
         <input type="text" id="level" name="level" value="" hidden>
@@ -48,7 +48,7 @@
           <ul class="pagination">
             
             {{# each data}}
-            <li class="page-item"><a class="page-link btn" onclick="showContent({{jsonStringify this}})">{{this.sort}}</a></li>
+            <li class="page-item" ><a class="page-link btn" id="question{{this.sort}}" data-question-id={{this.sort}} onclick="showContent({{jsonStringify this}})">{{this.sort}}</a></li>
             {{/each}}          
           
           </ul>

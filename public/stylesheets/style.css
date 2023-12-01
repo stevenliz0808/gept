@@ -54,7 +54,8 @@ hr {
   min-width: 60px;
 }
 
-select, input {
+select,
+input {
   min-width: 130px;
 }
 
@@ -74,6 +75,10 @@ select, input {
   overflow-x: auto;
 }
 
+.active {
+  z-index: 1;
+}
+
 .options-container {
   display: flex;
   flex-direction: column;
@@ -91,9 +96,10 @@ select, input {
   border: 3px solid steelblue;
 }
 
-.option-color {
+.chosen-color {
   background-color: yellowgreen;
   font-weight: bolder;
+  color: black;
 }
 
 .test {
@@ -177,10 +183,11 @@ th {
 
 @media (min-width: 760px) {
   .background-image img {
-    content: url('/images/welcome-GEPT-pc.png');
+    content: url("/images/welcome-GEPT-pc.png");
   }
 
-  .topic, .answer {
+  .topic,
+  .answer {
     width: 50%;
   }
 }

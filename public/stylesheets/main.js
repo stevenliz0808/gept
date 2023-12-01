@@ -83,8 +83,12 @@ function main() {
     const d3 = document.querySelector("#level3").textContent * 2.5;
     const d4 = document.querySelector("#level4").textContent * 5;
 
+    const t1 = document.querySelector("#first-accuracy").textContent
+    const t2 = document.querySelector("#last-accuracy").textContent
+    const t3 = document.querySelector("#this-accuracy").textContent;
+
     renderCorrectRateChart(d1, d2, d3, d4);
-    renderTestComparisonChart(50, 60, 90);
+    renderTestComparisonChart(t1, t2, t3);
   }
 
   if (navbarToggler) {

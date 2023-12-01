@@ -7,14 +7,14 @@ const authHandler = require("../middlewares/auth-handler");
 const db = require("../models");
 const User = db.LoginData;
 
-router.use("/test", authHandler, test);
+router.use("/gepttest", authHandler, test);
 
 router.get("/auth/facebook", passport.authenticate("facebook"));
 
 router.get(
   "/auth/facebook/callback",
   passport.authenticate("facebook", {
-    successRedirect: "/test",
+    successRedirect: "/gepttest",
     failureRedirect: "/",
   })
 );
@@ -45,7 +45,7 @@ router.post("/user/confirm", (req, res) => {
         Town: town,
       });
     })
-    .then(() => res.redirect("/test/listening/start"))
+    .then(() => res.redirect("/gepttest/listening/start"))
     .catch((err) => next(err));
 });
 

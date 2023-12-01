@@ -4,7 +4,6 @@ const router = express.Router();
 const db = require("../models");
 const ListeningData = db.ListeningData;
 const ListeningTestRecord = db.ListeningTestRecord;
-const LoginData = db.LoginData;
 
 router.get("/create", (req, res) => {
   res.render("create-test");
@@ -64,7 +63,7 @@ router.post("/listening/report", (req, res, next) => {
     createDate: currentDate,
   })
     .then(() => {
-      res.redirect("/test/listening/report");
+      res.redirect("/gepttest/listening/report");
     })
     .catch((err) => next(err));
 });
@@ -86,7 +85,6 @@ router.get("/listening/report", (req, res, next) => {
       const level = thisRecord.Level;
       const checkedAns = thisRecord.CheckedAns;
       const myAns = thisRecord.MyAns;
-      const accuracy = ((level / 120) * 100).toFixed(1);
       const correctAns = level / 4;
       const result = level < 72 ? "未通過聽力檢測!" : "通過聽力檢測!";
 
@@ -99,12 +97,17 @@ router.get("/listening/report", (req, res, next) => {
         return letters[num - 1];
       });
       const checkedAnsArray = checkedAns.split("");
-      let lastLevel = 0,
-        firstLevel = 0,
-        level1 = 0,
-        level2 = 0,
-        level3 = 0,
-        level4 = 0;
+
+      const firstAccuracy =  ((records[0].Level / 120) * 100).toFixed(1)
+
+      const thisAccuracy = thisRound > 1 ? ((thisRecord.Level / 120) * 100).toFixed(1) : 0
+
+      const lastAccuracy =
+        thisRound > 2
+          ? ((records[thisRound - 2].Level / 120) * 100).toFixed(1)
+          : 0; 
+
+      const currentAccuracy = thisRound == 1 ? firstAccuracy : thisAccuracy;    
 
       const firstDate = records[0].createDate.toLocaleString("zh-TW", {
         timeZone: "UTC",
@@ -125,7 +128,11 @@ router.get("/listening/report", (req, res, next) => {
           : "--";
 
       const currentDate = thisRound == 1 ? firstDate : thisDate;
-      
+
+      let level1 = 0,
+        level2 = 0,
+        level3 = 0,
+        level4 = 0;
       for (let i = 0; i < 5; i++) {
         ansDetailArray1[i] = {
           sort: i + 1,
@@ -161,13 +168,14 @@ router.get("/listening/report", (req, res, next) => {
 
       res.render("listening-report", {
         level,
-        lastLevel,
-        firstLevel,
         level1,
         level2,
         level3,
         level4,
-        accuracy,
+        currentAccuracy,
+        thisAccuracy,
+        lastAccuracy,
+        firstAccuracy,
         correctAns,
         result,
         ansDetailArray1,
@@ -207,7 +215,7 @@ router.get("/reading/new", (req, res) => {
     .then((listeningData) => {
       res.render("new-", { listeningData });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => next(err));
 });
 
 router.get("/reading/report", (req, res) => {

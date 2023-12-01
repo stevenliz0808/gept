@@ -15,7 +15,7 @@
     <div class="result">
       <h4>【檢測結果】</h4>
       <p><strong>測試成績：</strong> {{level}} 分</p>
-      <p><strong>答題正確率：</strong><span class="red-line"> {{accuracy}} %</span>   (答對{{correctAns}}題) </p>       
+      <p><strong>答題正確率：</strong><span class="red-line"> {{currentAccuracy}} %</span>   (答對{{correctAns}}題) </p>       
       <p><strong>通過標準：</strong>72分 (60%，答對18題以上)</p>
       <p><strong>詳細結果：</strong><span class="red-line">{{result}}</span></p>
     </div>
@@ -24,8 +24,11 @@
     <div>
       <h4>【測驗比較】</h4> 
       <p><strong>首次測驗：</strong>{{firstDate}}</p>
+      <p id="first-accuracy" hidden="true">{{firstAccuracy}}</p>
       <p><strong>上次測驗：</strong>{{lastDate}}</p>
+      <p id="last-accuracy" hidden="true">{{lastAccuracy}}</p>
       <p><strong>本次測驗：</strong>{{thisDate}} </p>
+      <p id="this-accuracy" hidden="true">{{thisAccuracy}}</p>
       <div class="chart-container">
         <canvas id="test-comparison-chart"></canvas>
       </div>

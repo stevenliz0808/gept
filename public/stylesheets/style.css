@@ -5,8 +5,6 @@ body {
 }
 
 section {
-  position: absolute;
-  top: 60px;
   width: 100%;
 }
 
@@ -29,8 +27,8 @@ hr {
 
 .navbar-toggler {
   position: fixed;
-  right: 10;
-  top: 8;
+  right: 10px;
+  top: 8px;
 }
 
 #user-name {

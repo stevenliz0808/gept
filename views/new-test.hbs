@@ -5,11 +5,11 @@
     {{!-- 計時器 --}}
     <div class="d-flex justify-content-between">
       <div class="d-flex justify-content-between align-items-center">
-        <span class="fs-5 fw-bolder me-2">
+        <span class=" fw-bolder me-2">
         <i class="fa-solid fa-stopwatch"></i>
         測驗時間
         </span>
-        <span id="countdown" class="fs-5">
+        <span id="countdown" class="">
         </span>
       </div>
       <div class="d-flex align-items-center">
@@ -18,17 +18,17 @@
         <input type="text" id="checkedAns" name="checkedAns" value="" hidden>
         <input type="text" id="level" name="level" value="" hidden>
         <input type="text" id="round" name="round" value={{GEPTround}} hidden>
-        <button class="btn btn-outline-primary btn-handout">交卷</button>
+        <button class="btn btn-outline-success btn-handout" onclick="return confirm('確定交卷嗎?')">交卷</button>
         </form>
 
-        <a href="/test/listening/start"><button class="btn btn-outline-secondary ms-2">離開</button></a>
+        <a href="/test/listening/start"><button class="btn btn-outline-danger ms-2" onclick="return confirm('確定離開嗎?')">離開</button></a>
       </div>
     </div>
 
     <div class="mt-1 render-list">
       <div>
         {{!-- 進度條 --}}
-        <div class="d-flex">
+        {{!-- <div class="d-flex">
           <div class="progress progress1">
             <div class="progress-bar bar1 bg-info" role="progressbar" style="width: 40%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5">2</div>
           </div>
@@ -41,7 +41,7 @@
           <div class="progress progress4">
             <div class="progress-bar bar4 bg-danger" role="progressbar" style="width: 60%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5">3</div>
           </div>
-        </div>
+        </div> --}}
 
         {{!-- 題碼 --}}
         <nav aria-label="Page navigation example">
@@ -57,10 +57,10 @@
 
       {{!-- 試題區 --}}
       <div class="test">
-        <div class="topic w-50 p-2">
+        <div class="topic p-2">
           {{!-- render topic        --}}
         </div>
-        <div class="answer w-50 p-2">
+        <div class="answer p-2">
           {{!-- render answer        --}}
         </div>
       </div>

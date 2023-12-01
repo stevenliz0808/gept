@@ -7,10 +7,7 @@ const ListeningTestRecord = db.ListeningTestRecord;
 const LoginData = db.LoginData;
 
 router.get("/create", (req, res) => {
-  const id = req.user.ID;
-  return LoginData.findByPk(id, { raw: true }).then((user) => {
-    res.render("create-test", { user });
-  });
+  res.render("create-test");
 });
 
 router.get("/listening/start", (req, res) => {
@@ -19,7 +16,7 @@ router.get("/listening/start", (req, res) => {
 
 router.get("/listening/new", (req, res, next) => {
   const id = req.user.ID;
-  let GEPTround = 0
+  let GEPTround = 0;
   ListeningTestRecord.findAll({
     attributes: ["Round"],
     where: { StuAccID: id },
@@ -28,7 +25,7 @@ router.get("/listening/new", (req, res, next) => {
   })
     .then((rounds) => {
       GEPTround = rounds.length ? rounds[0].Round + 1 : 1;
-      if (GEPTround > 9) throw new Error("所有試題皆已完成!")
+      if (GEPTround > 9) throw new Error("所有試題皆已完成!");
       return ListeningData.findAll({
         attributes: [
           "ID",
@@ -67,6 +64,28 @@ router.post("/listening/report", (req, res, next) => {
     createDate: currentDate,
   })
     .then(() => {
+      res.redirect("/test/listening/report");
+    })
+    .catch((err) => next(err));
+});
+
+router.get("/listening/report", (req, res, next) => {
+  const userId = req.user.ID;
+
+  return ListeningTestRecord.findAll({
+    attributes: ["Round", "Level", "MyAns", "CheckedAns", "createDate"],
+    where: {
+      StuAccID: userId,
+    },
+    order: ["Round"],
+    raw: true,
+  })
+    .then((records) => {
+      const thisRound = records.length;
+      const thisRecord = records[thisRound - 1];
+      const level = thisRecord.Level;
+      const checkedAns = thisRecord.CheckedAns;
+      const myAns = thisRecord.MyAns;
       const accuracy = ((level / 120) * 100).toFixed(1);
       const correctAns = level / 4;
       const result = level < 72 ? "未通過聽力檢測!" : "通過聽力檢測!";
@@ -80,10 +99,33 @@ router.post("/listening/report", (req, res, next) => {
         return letters[num - 1];
       });
       const checkedAnsArray = checkedAns.split("");
-      let level1 = 0,
+      let lastLevel = 0,
+        firstLevel = 0,
+        level1 = 0,
         level2 = 0,
         level3 = 0,
         level4 = 0;
+
+      const firstDate = records[0].createDate.toLocaleString("zh-TW", {
+        timeZone: "UTC",
+      });
+
+      const thisDate =
+        thisRound > 1
+          ? thisRecord.createDate.toLocaleString("zh-TW", {
+              timeZone: "UTC",
+            })
+          : "--";
+
+      const lastDate =
+        thisRound > 2
+          ? records[thisRound - 2].createDate.toLocaleString("zh-TW", {
+              timeZone: "UTC",
+            })
+          : "--";
+
+      const currentDate = thisRound == 1 ? firstDate : thisDate;
+      
       for (let i = 0; i < 5; i++) {
         ansDetailArray1[i] = {
           sort: i + 1,
@@ -116,8 +158,11 @@ router.post("/listening/report", (req, res, next) => {
         };
         if (checkedAnsArray[i] === "O") level4 += 4;
       }
+
       res.render("listening-report", {
         level,
+        lastLevel,
+        firstLevel,
         level1,
         level2,
         level3,
@@ -130,8 +175,10 @@ router.post("/listening/report", (req, res, next) => {
         ansDetailArray3,
         ansDetailArray4,
         currentDate,
+        thisDate,
+        lastDate,
+        firstDate,
       });
-      console.log(currentDate);
     })
     .catch((err) => next(err));
 });
@@ -168,8 +215,7 @@ router.get("/reading/report", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  const isIndex = 1;
-  res.render("index", { isIndex });
+  res.render("index");
 });
 
 module.exports = router;

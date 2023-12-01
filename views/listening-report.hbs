@@ -3,10 +3,10 @@
   <div class="container-fluid test-report">
     <h3>聽力能力檢測</h3>
 
-    <div class="basicInfo">
+    <div class="basicInfo mt-3">
       <h4>【基本資料】</h4>        
-      <p><strong>姓名：</strong>Steven</p>
-      <p><strong>檢測地址：</strong>高雄</p>
+      <p><strong>姓名：</strong>{{userName}}</p>
+      <p><strong>檢測地址：</strong>{{userCity}}</p>
       <p><strong>檢測日期：</strong>{{currentDate}}</p>
       <p><strong>檢測時間：</strong>2時16分41秒</p>
     </div>
@@ -23,9 +23,9 @@
     
     <div>
       <h4>【測驗比較】</h4> 
-      <p><strong>首次測驗：</strong>2023年11月12號 (距今11天)</p>
-      <p><strong>上次測驗：</strong>2023年11月18號 (距今5天)</p>
-      <p><strong>本次測驗：</strong>{{currentDate}} </p>
+      <p><strong>首次測驗：</strong>{{firstDate}}</p>
+      <p><strong>上次測驗：</strong>{{lastDate}}</p>
+      <p><strong>本次測驗：</strong>{{thisDate}} </p>
       <div class="chart-container">
         <canvas id="test-comparison-chart"></canvas>
       </div>
@@ -42,7 +42,7 @@
 
     <div>
       <h4>【答題明細】</h4>
-      <p><strong>看圖辯義：</strong>共5題 (每題4分，共20分)<span class="red-line ms-2">得分: <span id="level1">{{level1}}</span>分</span></p>
+      <p><strong>看圖辯義：</strong>共5題，20分<span class="red-line ms-2">得分:<span id="level1">{{level1}}</span>分</span></p>
       <table class="table text-center mb-3">
         <thead>
           <tr>
@@ -62,7 +62,7 @@
         </tbody>
       </table>
 
-      <p><strong>問答：</strong>共10題 (每題4分，共40分)<span class="red-line ms-2">得分: <span id="level2">{{level2}}</span>分</span></p>
+      <p><strong>問答：</strong>共10題，40分<span class="red-line ms-2">得分: <span id="level2">{{level2}}</span>分</span></p>
       <table class="table text-center mb-3">
         <thead>
           <tr>
@@ -82,7 +82,7 @@
         </tbody>
       </table>
 
-      <p><strong>簡短對話：</strong>共10題 (每題4分，共40分)<span class="red-line ms-2">得分: <span id="level3">{{level3}}</span>分</span></p>
+      <p><strong>簡短對話：</strong>共10題，40分<span class="red-line ms-2">得分: <span id="level3">{{level3}}</span>分</span></p>
       <table class="table text-center mb-3">
         <thead>
           <tr>
@@ -102,7 +102,7 @@
         </tbody>
       </table>
 
-      <p><strong>短文聽解：</strong>共5題 (每題4分，共20分)<span class="red-line ms-2">得分: <span id="level4">{{level4}}</span>分</span></p>
+      <p><strong>短文聽解：</strong>共5題，20分<span class="red-line ms-2">得分: <span id="level4">{{level4}}</span>分</span></p>
       <table class="table text-center mb-3">
         <thead>
           <tr>

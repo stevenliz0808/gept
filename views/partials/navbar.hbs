@@ -1,17 +1,14 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
-    <div>
-      <a class="navbar-brand" href="/test">
-        <img src="/images/logo-kconline.png" alt="logo" />
-      </a>
-      
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </div>
-    
+    <a class="navbar-brand" href="/test">
+      <img src="/images/logo-kconline.png" alt="logo" />
+    </a>
+    {{#unless isLogout}}
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      {{#if isIndex}}
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" href="#">學生管理</a>
@@ -25,10 +22,13 @@
         <li class="nav-item">
           <a class="nav-link" href="#">教師派卷 </a>
         </li>
+        <a href="/logout" class="btn btn-info d-lg-none">登出</a>
       </ul>
-      {{/if}}
     </div>
-    <div id="user-name">{{userName}}</div>
-    {{> login}}
+    {{/unless}}
+    <div class="d-flex">
+      <p id="user-name" class="d-none d-lg-block">{{userName}}</p>
+      {{> login}}
+    </div>
   </div>
 </nav>

@@ -7,6 +7,8 @@ function main() {
   const renderList = document.querySelector(".render-list");
   const pageLink = document.querySelector(".page-link");
   const testReport = document.querySelector(".test-report");
+  const navbarToggler = document.querySelector(".navbar-toggler")
+  const twzipcode = document.querySelector("#twzipcode");
 
   if (counterElement) {
     createCounter(counterElement, { initialCount: 1200 });
@@ -67,6 +69,25 @@ function main() {
     
     renderCorrectRateChart(d1,d2,d3,d4);
     renderTestComparisonChart(50,60,90);
+  }
+
+  if (navbarToggler) {
+    $(".navbar-toggler").click(function () {
+      $("#user-name").toggle();
+    });
+  }
+
+  if (twzipcode) {
+    $("#twzipcode").twzipcode({
+      countyName: "city",
+      districtName: "town",
+    });
+
+    const selectElements = document
+      .querySelectorAll("select")
+      .forEach((selectElement) => {
+        selectElement.required = true;
+      });
   }
 }
 
@@ -155,7 +176,7 @@ function showContent(data) {
 
 function renderCorrectRateChart(d1,d2,d3,d4) {
   const correctRateChart = document.querySelector("#correct-rate-chart");
-  Chart.defaults.font.size = 20;
+  Chart.defaults.font.size = 16;
   const chart = new Chart(correctRateChart, {
     type: "bar",
     data: {
@@ -176,12 +197,13 @@ function renderCorrectRateChart(d1,d2,d3,d4) {
             "rgba(255, 206, 86, 1)",
             "rgba(75, 192, 192, 1)",
           ],
-          borderWidth: 2, // 外框線寬度
-          barThickness: 50,
+          borderWidth: 1, // 外框線寬度
+          barThickness: 45,
         },
       ],
     },
     options: {
+      maintainAspectRatio: false,
       scales: {
         y: {
           type: "linear",
@@ -202,7 +224,7 @@ function renderCorrectRateChart(d1,d2,d3,d4) {
               yMin: 60,
               yMax: 60,
               borderColor: "rgb(255, 99, 132)",
-              borderWidth: 2,
+              borderWidth: 1,
             },
           },
         },
@@ -213,7 +235,7 @@ function renderCorrectRateChart(d1,d2,d3,d4) {
 
 function renderTestComparisonChart(d1, d2, d3) {
   const testComparisonChart = document.querySelector("#test-comparison-chart");
-  Chart.defaults.font.size = 20;
+  Chart.defaults.font.size = 16;
   const chart = new Chart(testComparisonChart, {
     type: "bar",
     data: {
@@ -232,12 +254,13 @@ function renderTestComparisonChart(d1, d2, d3) {
             "rgba(255, 153, 0 ,1)",
             "rgba(0, 153, 102, 1)",
           ],
-          borderWidth: 2,
-          barThickness: 50,
+          borderWidth: 1,
+          barThickness: 45,
         },
       ],
     },
     options: {
+      maintainAspectRatio: false,
       scales: {
         y: {
           type: "linear",
@@ -258,7 +281,7 @@ function renderTestComparisonChart(d1, d2, d3) {
               yMin: 60,
               yMax: 60,
               borderColor: "rgb(255, 99, 132)",
-              borderWidth: 2,
+              borderWidth: 1,
             },
           },
         },

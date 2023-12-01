@@ -10,7 +10,7 @@
           class="form-control"
           id="inputChineseName"
           name="name"
-          value="{{user.Name}}"
+          value="{{userName}}"
           placeholder="Chinese Name"
           required
         />
@@ -22,7 +22,7 @@
           class="form-control"
           id="inputEnglishName"
           name="nameEng"
-          value= "{{user.NameEng}}"
+          value= "{{userNameEng}}"
           placeholder="English Name"
           required
         />
@@ -30,24 +30,11 @@
       <div class="mb-3 w-50">
         <label for="inputAddress" class="form-label">檢測地址</label>
         <div id="twzipcode">
-          <div data-role="county" data-style="city form-select mb-2" data-value={{user.City}}></div>
-          <div data-role="district" data-style="town form-select" data-value={{user.Town}}></div>
+          <div data-role="county" data-style="city form-select mb-2" data-value={{userCity}}></div>
+          <div data-role="district" data-style="town form-select" data-value={{userTown}}></div>
         </div>
       </div>
       <button type="submit" class="btn btn-primary">確認</button>
     </form>
   </div>
 </section>
-
-
-<script>
-$("#twzipcode").twzipcode({
-  countyName: "city", 
-  districtName: "town"
-});
-
-const selectElements = document.querySelectorAll("select").forEach((selectElement) => {
-  selectElement.required = true
-})
-
-</script>

@@ -6,12 +6,12 @@ body {
 
 section {
   position: absolute;
-  top: 110px;
+  top: 60px;
   width: 100%;
 }
 
 hr {
-  margin: 2.5rem 2.5rem 2.5rem 0;
+  margin: 2.5rem;
 }
 
 .navbar {
@@ -24,7 +24,13 @@ hr {
 }
 
 .nav-link {
-  font-size: 2rem;
+  font-size: 1.5rem;
+}
+
+.navbar-toggler {
+  position: fixed;
+  right: 10;
+  top: 8;
 }
 
 #user-name {
@@ -44,6 +50,14 @@ hr {
   font-size: 1.5rem;
 }
 
+.btn {
+  min-width: 60px;
+}
+
+select, input {
+  min-width: 130px;
+}
+
 /* create-test-page */
 #twzipcode [name="zipcode"] {
   display: none;
@@ -56,6 +70,9 @@ hr {
 }
 
 /* new-listening-page */
+.pagination {
+  overflow-x: auto;
+}
 
 .options-container {
   display: flex;
@@ -81,6 +98,7 @@ hr {
 
 .test {
   display: flex;
+  flex-wrap: wrap;
   font-size: 1.3rem;
 }
 
@@ -134,7 +152,7 @@ th {
 }
 
 .test-report {
-  padding: 3rem;
+  padding: 0 2rem;
 }
 
 .test-report h3 {
@@ -147,10 +165,6 @@ th {
   margin-bottom: 1.5rem;
 }
 
-.test-report p {
-  font-size: 1.3rem;
-}
-
 .red-line {
   color: crimson;
   font-weight: 600;
@@ -158,5 +172,15 @@ th {
 
 .chart-container {
   max-width: 600px;
-  min-width: 400px;
+  height: 375px;
+}
+
+@media (min-width: 760px) {
+  .background-image img {
+    content: url('/images/welcome-GEPT-pc.png');
+  }
+
+  .topic, .answer {
+    width: 50%;
+  }
 }

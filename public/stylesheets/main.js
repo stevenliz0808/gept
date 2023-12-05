@@ -14,14 +14,10 @@ function main() {
     createCounter(counterElement, { initialCount: 1200 });
   }
 
-  if (pageLink) {
-    pageLink.click();
-    pageLink.parentNode.classList.add("active");
-  }
-
   if (renderList) {
     renderList.addEventListener("click", (event) => {
       const data = event.target;
+      const optionsContainer = document.querySelector(".options-container");
       // 點答案
       if (data.classList.contains("option")) {
         const options = document.querySelectorAll(".option");
@@ -48,7 +44,6 @@ function main() {
         data.parentNode.classList.add("active");
 
         //顯示已選答案
-        const optionsContainer = document.querySelector(".options-container");
         const questionId = Number(data.dataset.questionId);
         const myAns = myAnsArray[questionId - 1];
 
@@ -56,6 +51,12 @@ function main() {
           const option = optionsContainer.querySelector(`:nth-child(${myAns})`);
           option.classList.add("chosen-color");
         }
+      }
+      //跳下一題
+      if (optionsContainer.querySelector(".chosen-color")) {
+        console.log(document.querySelector(".chosen-color"));
+        const nextQuestion = document.querySelector(".next-question");
+        nextQuestion.disabled = false;
       }
     });
 
@@ -77,14 +78,18 @@ function main() {
     });
   }
 
+  if (pageLink) {
+    pageLink.click();
+  }
+
   if (testReport) {
     const d1 = document.querySelector("#level1").textContent * 5;
     const d2 = document.querySelector("#level2").textContent * 2.5;
     const d3 = document.querySelector("#level3").textContent * 2.5;
     const d4 = document.querySelector("#level4").textContent * 5;
 
-    const t1 = document.querySelector("#first-accuracy").textContent
-    const t2 = document.querySelector("#last-accuracy").textContent
+    const t1 = document.querySelector("#first-accuracy").textContent;
+    const t2 = document.querySelector("#last-accuracy").textContent;
     const t3 = document.querySelector("#this-accuracy").textContent;
 
     renderCorrectRateChart(d1, d2, d3, d4);
@@ -140,7 +145,7 @@ function createCounter(element, options = {}) {
   }, interval);
 }
 // 出題
-function showContent(data) {
+function showListeningContent(data) {
   const topic = document.querySelector(".topic");
   const answer = document.querySelector(".answer");
 
@@ -181,17 +186,24 @@ function showContent(data) {
           <button class="btn option" name=${data.sort} value="1">A</button>
           <button class="btn option" name=${data.sort} value="2">B</button>
           <button class="btn option" name=${data.sort} value="3">C</button>
+          <button class="btn btn-primary next-question" onclick="nextQuestion(${data.sort})" disabled>下一題</button>
         </div>`;
   } else {
     answer.innerHTML += `<div class="options-container">         
           <button class="btn option" name=${data.sort} value="1">${data.ans1}</button>
           <button class="btn option" name=${data.sort} value="2">${data.ans2}</button>
           <button class="btn option" name=${data.sort} value="3">${data.ans3}</button>
+          <button class="btn btn-primary next-question" onclick="nextQuestion(${data.sort})" disabled>下一題</button>
         </div>`;
   }
 
   //儲存解答
   standardAnsArray[data.sort - 1] = data.standardAns;
+}
+
+function nextQuestion(num) {
+  const questionNum = document.querySelector(`#question${num + 1}`);
+  questionNum.click();
 }
 
 function renderCorrectRateChart(d1, d2, d3, d4) {

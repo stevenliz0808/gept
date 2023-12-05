@@ -26,15 +26,15 @@ hr {
 }
 
 .navbar-toggler {
-  position: fixed;
+  position: absolute;
   right: 10px;
   top: 8px;
 }
 
 #user-name {
-  flex: 0 1 72px;
+  flex: 1 1 72px;
   margin: 0 20px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .container {
@@ -77,6 +77,10 @@ input {
   z-index: 1;
 }
 
+.answer {
+  width: 100%;
+}
+
 .options-container {
   display: flex;
   flex-direction: column;
@@ -92,6 +96,11 @@ input {
 
 .option:hover {
   border: 3px solid steelblue;
+}
+
+.next-question {
+  max-width: 600px;
+  border: 1px solid black;
 }
 
 .chosen-color {
@@ -179,7 +188,23 @@ th {
   height: 375px;
 }
 
+/* create pretest */
+
+.accordion .btn {
+  display: flex;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  color: #212529;
+  text-decoration: none;
+}
+
+/* media */
 @media (min-width: 760px) {
+  html {
+    font-size: 24px;
+  }
+  
   .background-image img {
     content: url("/images/welcome-GEPT-pc.png");
   }

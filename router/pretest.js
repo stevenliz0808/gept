@@ -4,52 +4,35 @@ const router = express.Router();
 const db = require("../models");
 const ListeningData = db.ListeningData;
 const ListeningTestRecord = db.ListeningTestRecord;
+const PretestData = db.PretestData
 
 router.get("/create", (req, res) => {
-  res.render("create-test");
+  res.render("create-pretest");
 });
 
-router.get("/listening/start", (req, res) => {
-  res.render("start-test");
+router.get("/start/:round", (req, res) => {
+  const { round } = req.params;
+  res.render("start-pretest", { round });
 });
 
-router.get("/listening/new", (req, res, next) => {
-  const id = req.user.ID;
-  let GEPTround = 0;
-  ListeningTestRecord.findAll({
-    attributes: ["Round"],
-    where: { StuAccID: id },
-    order: [["Round", "DESC"]],
+router.get("/new/:round", (req, res, next) => {
+  const { round } = req.params;
+  return PretestData.findAll({
+    attributes: [
+      "ID",
+      "Ans1",
+      "Ans2",
+      "Ans3",
+    ],
     raw: true,
   })
-    .then((rounds) => {
-      GEPTround = rounds.length ? rounds[0].Round + 1 : 1;
-      if (GEPTround > 9) throw new Error("所有試題皆已完成!");
-      return ListeningData.findAll({
-        attributes: [
-          "ID",
-          "ans1",
-          "ans2",
-          "ans3",
-          "imgPath",
-          "standardAns",
-          "sort",
-          "type",
-          "voicePath",
-          "GEPTround",
-        ],
-        where: { GEPTround },
-        order: ["sort"],
-        raw: true,
-      });
-    })
-    .then((listeningData) => {
-      res.render("new-test", { data: listeningData, GEPTround });
+    .then((pretestData) => {
+      res.send(pretestData);
     })
     .catch((err) => next(err));
 });
 
-router.post("/listening/report", (req, res, next) => {
+router.post("/report", (req, res, next) => {
   const userId = req.user.ID;
   const { myAns, checkedAns, level, round } = req.body;
   const currentDate = new Date().toLocaleString();
@@ -63,12 +46,12 @@ router.post("/listening/report", (req, res, next) => {
     createDate: currentDate,
   })
     .then(() => {
-      res.redirect("/gepttest/listening/report");
+      res.redirect("/pretest/report");
     })
     .catch((err) => next(err));
 });
 
-router.get("/listening/report", (req, res, next) => {
+router.get("/report", (req, res, next) => {
   const userId = req.user.ID;
 
   return ListeningTestRecord.findAll({
@@ -98,16 +81,17 @@ router.get("/listening/report", (req, res, next) => {
       });
       const checkedAnsArray = checkedAns.split("");
 
-      const firstAccuracy =  ((records[0].Level / 120) * 100).toFixed(1)
+      const firstAccuracy = ((records[0].Level / 120) * 100).toFixed(1);
 
-      const thisAccuracy = thisRound > 1 ? ((thisRecord.Level / 120) * 100).toFixed(1) : 0
+      const thisAccuracy =
+        thisRound > 1 ? ((thisRecord.Level / 120) * 100).toFixed(1) : 0;
 
       const lastAccuracy =
         thisRound > 2
           ? ((records[thisRound - 2].Level / 120) * 100).toFixed(1)
-          : 0; 
+          : 0;
 
-      const currentAccuracy = thisRound == 1 ? firstAccuracy : thisAccuracy;    
+      const currentAccuracy = thisRound == 1 ? firstAccuracy : thisAccuracy;
 
       const firstDate = records[0].createDate.toLocaleString("zh-TW", {
         timeZone: "UTC",
@@ -191,39 +175,8 @@ router.get("/listening/report", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.get("/reading/start", (req, res) => {
-  res.render("start-test");
-});
-
-router.get("/reading/new", (req, res) => {
-  return ListeningData.findAll({
-    attributes: [
-      "ans1",
-      "ans2",
-      "ans3",
-      "imgPath",
-      "standardAns",
-      "sort",
-      "type",
-      "voicePath",
-      "GEPTround",
-    ],
-    where: { GEPTround: 1 },
-    order: ["sort"],
-    raw: true,
-  })
-    .then((listeningData) => {
-      res.render("new-", { listeningData });
-    })
-    .catch((err) => next(err));
-});
-
-router.get("/reading/report", (req, res) => {
-  res.render("reading-report");
-});
-
 router.get("/", (req, res) => {
-  res.render("index");
+  res.redirect("/pretest/create");
 });
 
 module.exports = router;

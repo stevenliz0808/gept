@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const db = require("../models");
-const ListeningData = db.ListeningData;
 const ListeningTestRecord = db.ListeningTestRecord;
 const PretestData = db.PretestData
+const GrammarList = db.GrammarList
 
 router.get("/create", (req, res) => {
   res.render("create-pretest");
@@ -17,15 +17,33 @@ router.get("/start/:round", (req, res) => {
 
 router.get("/new/:round", (req, res, next) => {
   const { round } = req.params;
-  return PretestData.findAll({
+  const grammaLevel = [
+    { start: 1, end: 8 }, //第1級
+    { start: 9, end: 17 }, //第2級
+    { start: 18, end: 25 },
+    { start: 26, end: 32 },
+    { start: 33, end: 40 },
+    { start: 41, end: 47 },
+    { start: 48, end: 54 },
+    { start: 55, end: 63 },
+    { start: 64, end: 70 },
+    { start: 71, end: 80 }, //地10級
+  ];
+  GrammarList.findAll({
     attributes: [
-      "ID",
-      "Ans1",
-      "Ans2",
-      "Ans3",
+      "ID"
     ],
-    raw: true,
+    raw: true
   })
+  // return PretestData.findAll({
+  //   attributes: [
+  //     "ID",
+  //     "Ans1",
+  //     "Ans2",
+  //     "Ans3",
+  //   ],
+  //   raw: true,
+  // })
     .then((pretestData) => {
       res.send(pretestData);
     })

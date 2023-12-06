@@ -44,7 +44,7 @@ router.get("/listening/new", (req, res, next) => {
       });
     })
     .then((listeningData) => {
-      res.render("new-test", { data: listeningData, GEPTround });
+      res.render("new-gepttest", { data: listeningData, GEPTround });
     })
     .catch((err) => next(err));
 });

@@ -6,6 +6,8 @@ body {
 
 section {
   width: 100%;
+  max-width: 1350px;
+  margin: 0 auto;
 }
 
 hr {
@@ -189,7 +191,6 @@ th {
 }
 
 /* create pretest */
-
 .accordion .btn {
   display: flex;
   width: 100%;
@@ -199,12 +200,17 @@ th {
   text-decoration: none;
 }
 
+/* new pretest page */
+.pretest h3 {
+  font-weight: bold;
+}
+
 /* media */
 @media (min-width: 760px) {
   html {
     font-size: 24px;
   }
-  
+
   .background-image img {
     content: url("/images/welcome-GEPT-pc.png");
   }
@@ -212,5 +218,9 @@ th {
   .topic,
   .answer {
     width: 50%;
+  }
+
+  .pretest .options-container{
+    justify-content: center;
   }
 }

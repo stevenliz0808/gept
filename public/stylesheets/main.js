@@ -31,9 +31,11 @@ function main() {
 
         //題碼顯示答案
         const questionNum = document.querySelector(`#question${data.name}`);
-        const letters = "ABC";
-        questionNum.textContent = letters[data.value - 1];
-        questionNum.classList.add("chosen-color");
+        if (questionNum) {
+          const letters = "ABC";
+          questionNum.textContent = letters[data.value - 1];
+          questionNum.classList.add("chosen-color");
+        }
       }
       // 點題號
       if (data.classList.contains("page-link")) {
@@ -54,28 +56,34 @@ function main() {
       }
       //跳下一題
       if (optionsContainer.querySelector(".chosen-color")) {
-        console.log(document.querySelector(".chosen-color"));
         const nextQuestion = document.querySelector(".next-question");
         nextQuestion.disabled = false;
       }
     });
 
     const btnHandout = document.querySelector(".btn-handout");
+    const pretest = document.querySelector(".pretest");
 
-    btnHandout.addEventListener("click", (event) => {
-      // if (myAnsArray.includes()) {
-      //   window.alert("尚未完成作答!");
-      //   return event.preventDefault();
-      // }
-      const myAns = document.querySelector("#myAns");
-      const checkedAns = document.querySelector("#checkedAns");
-      const level = document.querySelector("#level");
-      checkAns();
+    if (btnHandout) {
+      btnHandout.addEventListener("click", (event) => {
+        if (myAnsArray.includes()) {
+          window.alert("尚未完成作答!");
+          return event.preventDefault();
+        }
+        const myAns = document.querySelector("#myAns");
+        const checkedAns = document.querySelector("#checkedAns");
+        const level = document.querySelector("#level");
+        checkAns();
 
-      myAns.value = myAnsArray.join("");
-      checkedAns.value = checkedAnsArray.join("");
-      level.value = checkedAnsArray.filter((e) => e.includes("O")).length * 4;
-    });
+        myAns.value = myAnsArray.join("");
+        checkedAns.value = checkedAnsArray.join("");
+        level.value = checkedAnsArray.filter((e) => e.includes("O")).length * 4;
+      });
+    }
+
+    if (pretest) {
+      showPretestContent(data[currentIndex - 1]);
+    }
   }
 
   if (pageLink) {
@@ -144,7 +152,7 @@ function createCounter(element, options = {}) {
     setCounter(counter - 1);
   }, interval);
 }
-// 出題
+
 function showListeningContent(data) {
   const topic = document.querySelector(".topic");
   const answer = document.querySelector(".answer");
@@ -204,6 +212,29 @@ function showListeningContent(data) {
 function nextQuestion(num) {
   const questionNum = document.querySelector(`#question${num + 1}`);
   questionNum.click();
+}
+
+function showPretestContent(data) {
+  const pretest = document.querySelector(".pretest");
+  pretest.innerHTML = `
+      <h3>${currentIndex}.${data.ExamName}</h3>
+      <div class="options-container w-100">         
+        <button class="btn option" name=${currentIndex} value="1">${data.Ans1}</button>
+        <button class="btn option" name=${currentIndex} value="2">${data.Ans2}</button>
+        <button class="btn option" name=${currentIndex} value="3">${data.Ans3}</button>
+        <button class="btn option" name=${currentIndex} value="4">${data.Ans4}</button>
+        <button class="btn btn-primary next-question" onclick="nextPretestQuestion()" disabled>下一題</button>
+      </div>
+    `;
+  //儲存解答
+  standardAnsArray[currentIndex - 1] = data.StandardAns;
+}
+
+function nextPretestQuestion() {
+  if (currentIndex === data.length) {
+    alert('測驗結束!')
+    
+  }
 }
 
 function renderCorrectRateChart(d1, d2, d3, d4) {

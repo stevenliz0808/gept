@@ -25,6 +25,7 @@ app.set("views", "./views");
 
 app.use(express.static("public"));
 app.use(express.static("node_modules"));
+app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({

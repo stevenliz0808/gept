@@ -1,6 +1,6 @@
-const myAnsArray = new Array(30);
-const standardAnsArray = new Array(30);
-const checkedAnsArray = new Array(30);
+const myAnsArray = new Array();
+const standardAnsArray = new Array();
+const checkedAnsArray = new Array();
 
 function main() {
   const counterElement = document.querySelector("#countdown");
@@ -82,7 +82,7 @@ function main() {
     }
 
     if (pretest) {
-      showPretestContent(data[currentIndex - 1]);
+      showPretestContent(questionData[currentIndex - 1]);
     }
   }
 
@@ -231,9 +231,38 @@ function showPretestContent(data) {
 }
 
 function nextPretestQuestion() {
-  if (currentIndex === data.length) {
-    alert('測驗結束!')
-    
+  if (currentIndex !== questionData.length) {
+    // checkAns()
+    // const accuracy = checkedAnsArray.filter((e) => e.includes("O")).length / checkedAnsArray.length
+
+    // if (accuracy < 0.6) {
+    //   // 降級
+    //   // 送出報告
+    // } else {
+    //   //升級
+    // }
+
+    const ansData = {
+      myAnsArray
+    };
+
+    fetch("/pretest/report", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(ansData),
+    })
+      .then((response) => {
+        return response.text();
+      })
+      
+      .catch((err) => console.error("Error saving data:", err));
+  } else {
+    currentIndex++;
+    showPretestContent(questionData[currentIndex - 1]);
+    console.log(myAnsArray)
+    console.log(standardAnsArray);
   }
 }
 
@@ -358,7 +387,7 @@ function renderTestComparisonChart(d1, d2, d3) {
 
 function checkAns() {
   for (let i = 0; i < myAnsArray.length; i++) {
-    if (myAnsArray[i] === standardAnsArray[i]) {
+    if (myAnsArray[i] === standardAnsArray[i] && myAnsArray[i] !== null) {
       checkedAnsArray[i] = "O";
     } else checkedAnsArray[i] = "X";
   }

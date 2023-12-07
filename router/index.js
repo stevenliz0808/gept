@@ -8,7 +8,7 @@ const authHandler = require("../middlewares/auth-handler");
 const db = require("../models");
 const User = db.LoginData;
 
-router.use("/gepttest", gepttest);
+router.use("/gepttest", authHandler, gepttest);
 router.use("/pretest", pretest);
 
 router.get("/auth/facebook", passport.authenticate("facebook"));

@@ -21,20 +21,56 @@ function main() {
       // 點答案
       if (data.classList.contains("option")) {
         const options = document.querySelectorAll(".option");
+        const number = data.name;
         options.forEach((option) => {
           option.classList.remove("chosen-color");
         });
         data.classList.add("chosen-color");
 
         // 紀錄答案
-        myAnsArray[data.name - 1] = data.value;
+        myAnsArray[number - 1] = data.value;
 
         //題碼顯示答案
-        const questionNum = document.querySelector(`#question${data.name}`);
+        const questionNum = document.querySelector(`#question${number}`);
         if (questionNum) {
           const letters = "ABC";
           questionNum.textContent = letters[data.value - 1];
           questionNum.classList.add("chosen-color");
+        }
+
+        //更新進度條
+        const bar1 = document.querySelector(".bar1");
+        const bar2 = document.querySelector(".bar2");
+        const bar3 = document.querySelector(".bar3");
+        const bar4 = document.querySelector(".bar4");
+
+        if (number <= 5) {
+          const finishItemAmount = myAnsArray
+            .slice(0, 5)
+            .filter((e) => e !== null).length;
+          bar1.textContent = finishItemAmount;
+          bar1.style.width = finishItemAmount * 20 + "%";
+        }
+        if (number > 5 || number <= 15) {
+          const finishItemAmount = myAnsArray
+            .slice(5, 15)
+            .filter((e) => e !== null).length;
+          bar2.textContent = finishItemAmount;
+          bar2.style.width = finishItemAmount * 10 + "%";
+        }
+        if (number > 15 || number <= 25) {
+          const finishItemAmount = myAnsArray
+            .slice(15, 25)
+            .filter((e) => e !== null).length;
+          bar3.textContent = finishItemAmount;
+          bar3.style.width = finishItemAmount * 10 + "%";
+        }
+        if (number > 25 || number <= 30) {
+          const finishItemAmount = myAnsArray
+            .slice(25, 30)
+            .filter((e) => e !== null).length;
+          bar4.textContent = finishItemAmount;
+          bar4.style.width = finishItemAmount * 20 + "%";
         }
       }
       // 點題號
@@ -243,7 +279,7 @@ function nextPretestQuestion() {
     // }
 
     const ansData = {
-      myAnsArray
+      myAnsArray,
     };
 
     fetch("/pretest/report", {
@@ -256,12 +292,12 @@ function nextPretestQuestion() {
       .then((response) => {
         return response.text();
       })
-      
+
       .catch((err) => console.error("Error saving data:", err));
   } else {
     currentIndex++;
     showPretestContent(questionData[currentIndex - 1]);
-    console.log(myAnsArray)
+    console.log(myAnsArray);
     console.log(standardAnsArray);
   }
 }

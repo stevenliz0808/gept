@@ -72,8 +72,25 @@ input {
 }
 
 /* new-listening-page */
-.pagination {
+.overflow {
   overflow-x: auto;
+}
+
+.progress {
+  font-size: 20px;
+  height: 20px;
+}
+
+.progress1, .progress4 {
+  flex: 0 0 300px;
+}
+
+.progress2, .progress3 {
+  flex: 0 0 600px;
+}
+
+.page-item {
+  min-width: 60px;
 }
 
 .active {
@@ -138,24 +155,6 @@ input {
 li {
   flex: 1;
   text-align: center;
-}
-
-.progress {
-  height: 20px;
-}
-
-.progress1,
-.progress4 {
-  width: 16.65%;
-}
-
-.progress2,
-.progress3 {
-  width: 33.3%;
-}
-
-.progress-bar {
-  font-size: 20px;
 }
 
 /* listening-report */

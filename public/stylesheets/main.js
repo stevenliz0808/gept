@@ -257,7 +257,7 @@ function showPretestContent(data) {
   const pretest = document.querySelector(".pretest");
   pretest.innerHTML = `
       <h3>${currentIndex}.${data.ExamName}</h3>
-      <div class="options-container w-100">         
+      <div class="options-container w-100 mt-4">         
         <button class="btn option" name=${currentIndex} value="1">${data.Ans1}</button>
         <button class="btn option" name=${currentIndex} value="2">${data.Ans2}</button>
       </div>`;
@@ -293,7 +293,8 @@ async function nextPretestQuestion() {
       if (winTimes > 0 && loseTimes > 0) {
         const ansData = { myAnsArray, myQuesArray, level: level -1 };
         return axios
-          .post("/pretest/report", ansData)
+          .post("/api/pretest/report", ansData)
+          .then(res => window.location.href = res.data.redirect)
           .catch((err) => console.error("Error saving data:", err));
       }
       await axios.get(`/api/pretest/${level - 1}`).then((res) => {
@@ -305,7 +306,11 @@ async function nextPretestQuestion() {
       if (winTimes > 0 && loseTimes > 0) {
         const ansData = { myAnsArray, myQuesArray, level: level };
         return axios
-          .post("/pretest/report", ansData)
+          .post("/api/pretest/report", ansData)
+          .then(res => {
+            window.location.href = res.data.redirect
+            console.log(res.data.redirect)
+          })
           .catch((err) => console.error("Error saving data:", err));
       }
       await axios.get(`/api/pretest/${level + 1}`).then((res) => {
@@ -315,7 +320,8 @@ async function nextPretestQuestion() {
     } else {
       const ansData = { myAnsArray, myQuesArray, level };
       return axios
-        .post("/pretest/report", ansData)
+        .post("/api/pretest/report", ansData)
+        .then(res => window.location.href = res.data.redirect)
         .catch((err) => console.error("Error saving data:", err));
     }
     standardAnsArray.length = 0;

@@ -110,25 +110,17 @@ router.get("/new/:round", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.post("/report", (req, res, next) => {
-  // const userId = req.user.ID;
-  const { myAnsArray, myQuesArray, level } = req.body;
-  
-  return PretestRecord.create({
-    StuAccID: "123",
-    Level: level,
-    MyQuestion: JSON.stringify(myQuesArray),
-    MyAns: JSON.stringify(myAnsArray),
-  })
-    .then(() => res.redirect("/pretest/report"))
-    .catch((err) => next(err));
-  
-});
-
 router.get("/report", (req, res, next) => {
   // const userId = req.user.ID;
-console.log("success")
-  res.redirect('/')
+  return PretestRecord.findOne({
+    where : {
+      level: 7
+    },
+    raw: true
+  })
+    .then((record) => {
+      res.send(record)
+    })
 });
 
 router.get("/", (req, res) => {

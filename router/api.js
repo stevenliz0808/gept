@@ -3,6 +3,7 @@ const router = express.Router();
 
 const db = require("../models");
 const PretestData = db.PretestData;
+const PretestRecord = db.PretestRecord;
 const GrammarList = db.GrammarList;
 const { Op, literal } = require("sequelize");
 
@@ -95,6 +96,20 @@ router.get("/pretest/:round", (req, res, next) => {
       const pretestData = data.filter((item) => item !== null);
       res.json({ pretestData, round });
     })
+    .catch((err) => next(err));
+});
+
+router.post("/pretest/report", (req, res, next) => {
+  // const userId = req.user.ID;
+  const { myAnsArray, myQuesArray, level } = req.body;
+
+  return PretestRecord.create({
+    StuAccID: "123",
+    Level: level,
+    MyQuestion: JSON.stringify(myQuesArray),
+    MyAns: JSON.stringify(myAnsArray),
+  })
+    .then(() => res.json({ redirect: "/pretest/report" }))
     .catch((err) => next(err));
 });
 

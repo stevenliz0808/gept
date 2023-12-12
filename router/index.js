@@ -9,7 +9,7 @@ const authHandler = require("../middlewares/auth-handler");
 const db = require("../models");
 const User = db.LoginData;
 
-router.use("/gepttest", authHandler, gepttest);
+router.use("/gepttest", gepttest);
 router.use("/pretest", pretest);
 router.use("/api", api)
 

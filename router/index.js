@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 const gepttest = require("./gepttest");
 const pretest = require("./pretest");
+const api = require("./api")
 const authHandler = require("../middlewares/auth-handler");
 
 const db = require("../models");
@@ -10,6 +11,7 @@ const User = db.LoginData;
 
 router.use("/gepttest", authHandler, gepttest);
 router.use("/pretest", pretest);
+router.use("/api", api)
 
 router.get("/auth/facebook", passport.authenticate("facebook"));
 

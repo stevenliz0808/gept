@@ -1,4 +1,5 @@
 const myAnsArray = new Array();
+const myQuesArray = new Array();
 const standardAnsArray = new Array();
 const checkedAnsArray = new Array();
 
@@ -44,33 +45,35 @@ function main() {
         const bar3 = document.querySelector(".bar3");
         const bar4 = document.querySelector(".bar4");
 
-        if (number <= 5) {
-          const finishItemAmount = myAnsArray
-            .slice(0, 5)
-            .filter((e) => e !== null).length;
-          bar1.textContent = finishItemAmount;
-          bar1.style.width = finishItemAmount * 20 + "%";
-        }
-        if (number > 5 || number <= 15) {
-          const finishItemAmount = myAnsArray
-            .slice(5, 15)
-            .filter((e) => e !== null).length;
-          bar2.textContent = finishItemAmount;
-          bar2.style.width = finishItemAmount * 10 + "%";
-        }
-        if (number > 15 || number <= 25) {
-          const finishItemAmount = myAnsArray
-            .slice(15, 25)
-            .filter((e) => e !== null).length;
-          bar3.textContent = finishItemAmount;
-          bar3.style.width = finishItemAmount * 10 + "%";
-        }
-        if (number > 25 || number <= 30) {
-          const finishItemAmount = myAnsArray
-            .slice(25, 30)
-            .filter((e) => e !== null).length;
-          bar4.textContent = finishItemAmount;
-          bar4.style.width = finishItemAmount * 20 + "%";
+        if (bar1) {
+          if (number <= 5) {
+            const finishItemAmount = myAnsArray
+              .slice(0, 5)
+              .filter((e) => e !== null).length;
+            bar1.textContent = finishItemAmount;
+            bar1.style.width = finishItemAmount * 20 + "%";
+          }
+          if (number > 5 || number <= 15) {
+            const finishItemAmount = myAnsArray
+              .slice(5, 15)
+              .filter((e) => e !== null).length;
+            bar2.textContent = finishItemAmount;
+            bar2.style.width = finishItemAmount * 10 + "%";
+          }
+          if (number > 15 || number <= 25) {
+            const finishItemAmount = myAnsArray
+              .slice(15, 25)
+              .filter((e) => e !== null).length;
+            bar3.textContent = finishItemAmount;
+            bar3.style.width = finishItemAmount * 10 + "%";
+          }
+          if (number > 25 || number <= 30) {
+            const finishItemAmount = myAnsArray
+              .slice(25, 30)
+              .filter((e) => e !== null).length;
+            bar4.textContent = finishItemAmount;
+            bar4.style.width = finishItemAmount * 20 + "%";
+          }
         }
       }
       // 點題號
@@ -257,49 +260,71 @@ function showPretestContent(data) {
       <div class="options-container w-100">         
         <button class="btn option" name=${currentIndex} value="1">${data.Ans1}</button>
         <button class="btn option" name=${currentIndex} value="2">${data.Ans2}</button>
-        <button class="btn option" name=${currentIndex} value="3">${data.Ans3}</button>
-        <button class="btn option" name=${currentIndex} value="4">${data.Ans4}</button>
-        <button class="btn btn-primary next-question" onclick="nextPretestQuestion()" disabled>下一題</button>
-      </div>
-    `;
+      </div>`;
+  
+  const optionsContainer = pretest.querySelector(".options-Container")
+  if (data.Ans3) {
+    optionsContainer.innerHTML += `<button class="btn option" name=${currentIndex} value="3">${data.Ans3}</button>`;
+  }
+  if (data.Ans4) {
+    optionsContainer.innerHTML += `<button class="btn option" name=${currentIndex} value="4">${data.Ans4}</button>`;
+  }
+  optionsContainer.innerHTML += `
+  <button class="btn btn-primary next-question" onclick="nextPretestQuestion()" disabled>下一題</button>`;
   //儲存解答
   standardAnsArray[currentIndex - 1] = data.StandardAns;
+  console.log(standardAnsArray)
+  //儲存題目ID
+  myQuesArray[currentIndex - 1] = data.ID;
 }
 
-function nextPretestQuestion() {
-  if (currentIndex !== questionData.length) {
-    // checkAns()
-    // const accuracy = checkedAnsArray.filter((e) => e.includes("O")).length / checkedAnsArray.length
+async function nextPretestQuestion() {
+  if (currentIndex === questionData.length) {
+    checkAns();
+    const accuracy =
+      checkedAnsArray.filter((e) => e.includes("O")).length /
+      checkedAnsArray.filter((e) => e !== undefined).length;
+    console.log(checkedAnsArray.filter((e) => e.includes("O")).length);
+    console.log(checkedAnsArray.filter((e) => e !== undefined).length);
+    console.log(accuracy);
 
-    // if (accuracy < 0.6) {
-    //   // 降級
-    //   // 送出報告
-    // } else {
-    //   //升級
-    // }
-
-    const ansData = {
-      myAnsArray,
-    };
-
-    fetch("/pretest/report", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(ansData),
-    })
-      .then((response) => {
-        return response.text();
-      })
-
-      .catch((err) => console.error("Error saving data:", err));
-  } else {
-    currentIndex++;
-    showPretestContent(questionData[currentIndex - 1]);
-    console.log(myAnsArray);
-    console.log(standardAnsArray);
+    if (accuracy < 0.6 && level > 1) {
+      loseTimes++;
+      if (winTimes > 0 && loseTimes > 0) {
+        const ansData = { myAnsArray, myQuesArray, level: level -1 };
+        return axios
+          .post("/pretest/report", ansData)
+          .catch((err) => console.error("Error saving data:", err));
+      }
+      await axios.get(`/api/pretest/${level - 1}`).then((res) => {
+        questionData.push(...res.data.pretestData);
+        level = res.data.round;
+      });
+    } else if (accuracy >= 0.6 && level < 10) {
+      winTimes++;
+      if (winTimes > 0 && loseTimes > 0) {
+        const ansData = { myAnsArray, myQuesArray, level: level };
+        return axios
+          .post("/pretest/report", ansData)
+          .catch((err) => console.error("Error saving data:", err));
+      }
+      await axios.get(`/api/pretest/${level + 1}`).then((res) => {
+        questionData.push(...res.data.pretestData);
+        level = res.data.round;
+      });
+    } else {
+      const ansData = { myAnsArray, myQuesArray, level };
+      return axios
+        .post("/pretest/report", ansData)
+        .catch((err) => console.error("Error saving data:", err));
+    }
+    standardAnsArray.length = 0;
+    checkedAnsArray.length = 0;
   }
+
+  currentIndex++;
+  const currentQues = questionData[currentIndex - 1];
+  showPretestContent(currentQues);
 }
 
 function renderCorrectRateChart(d1, d2, d3, d4) {
@@ -423,7 +448,12 @@ function renderTestComparisonChart(d1, d2, d3) {
 
 function checkAns() {
   for (let i = 0; i < myAnsArray.length; i++) {
-    if (myAnsArray[i] === standardAnsArray[i] && myAnsArray[i] !== null) {
+    if (standardAnsArray[i] === undefined) {
+      checkedAnsArray[i] === undefined;
+    } else if (
+      myAnsArray[i] === standardAnsArray[i] &&
+      myAnsArray[i] !== undefined
+    ) {
       checkedAnsArray[i] = "O";
     } else checkedAnsArray[i] = "X";
   }

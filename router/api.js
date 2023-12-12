@@ -4,19 +4,9 @@ const router = express.Router();
 const db = require("../models");
 const PretestData = db.PretestData;
 const GrammarList = db.GrammarList;
-const PretestRecord = db.PretestRecord
 const { Op, literal } = require("sequelize");
 
-router.get("/create", (req, res) => {
-  res.render("create-pretest");
-});
-
-router.get("/start/:round", (req, res) => {
-  const { round } = req.params;
-  res.render("start-pretest", { round });
-});
-
-router.get("/new/:round", (req, res, next) => {
+router.get("/pretest/:round", (req, res, next) => {
   const { round } = req.params;
   const grammarLevel = [
     { start: 1, end: 8 }, //第1級
@@ -98,41 +88,14 @@ router.get("/new/:round", (req, res, next) => {
             order: literal("NEWID()"),
             raw: true,
           });
-        }),
+        })
       );
     })
     .then((data) => {
-      const pretestData = data.filter(
-        (item) => item !== null
-      );
-      res.render("new-pretest", { data: pretestData, round });
+      const pretestData = data.filter((item) => item !== null);
+      res.json({ pretestData, round });
     })
     .catch((err) => next(err));
-});
-
-router.post("/report", (req, res, next) => {
-  // const userId = req.user.ID;
-  const { myAnsArray, myQuesArray, level } = req.body;
-  
-  return PretestRecord.create({
-    StuAccID: "123",
-    Level: level,
-    MyQuestion: JSON.stringify(myQuesArray),
-    MyAns: JSON.stringify(myAnsArray),
-  })
-    .then(() => res.redirect("/pretest/report"))
-    .catch((err) => next(err));
-  
-});
-
-router.get("/report", (req, res, next) => {
-  // const userId = req.user.ID;
-console.log("success")
-  res.redirect('/')
-});
-
-router.get("/", (req, res) => {
-  res.redirect("/pretest/create");
 });
 
 module.exports = router;

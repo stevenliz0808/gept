@@ -6,7 +6,6 @@ body {
 
 section {
   width: 100%;
-  max-width: 1350px;
   margin: 0 auto;
 }
 
@@ -16,7 +15,7 @@ hr {
 
 .navbar {
   z-index: 2;
-  background-color: #BEE9EA;
+  background-color: #bee9ea;
 }
 
 .navbar-brand img {
@@ -73,7 +72,7 @@ input {
 
 /* new-listening-page */
 .overflow {
-  overflow-x: auto;
+  overflow: auto;
 }
 
 .progress {
@@ -81,11 +80,13 @@ input {
   height: 20px;
 }
 
-.progress1, .progress4 {
+.progress1,
+.progress4 {
   flex: 0 0 300px;
 }
 
-.progress2, .progress3 {
+.progress2,
+.progress3 {
   flex: 0 0 600px;
 }
 
@@ -220,7 +221,7 @@ th {
     width: 50%;
   }
 
-  .pretest .options-container{
+  .pretest .options-container {
     justify-content: center;
   }
 }

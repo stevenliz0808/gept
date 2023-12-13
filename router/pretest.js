@@ -4,7 +4,8 @@ const router = express.Router();
 const db = require("../models");
 const PretestData = db.PretestData;
 const GrammarList = db.GrammarList;
-const PretestRecord = db.PretestRecord
+const PretestRecord = db.PretestRecord;
+const StudyPlanFourHours = db.StudyPlanFourHours;
 const { Op, literal } = require("sequelize");
 
 router.get("/create", (req, res) => {
@@ -98,13 +99,11 @@ router.get("/new/:round", (req, res, next) => {
             order: literal("NEWID()"),
             raw: true,
           });
-        }),
+        })
       );
     })
     .then((data) => {
-      const pretestData = data.filter(
-        (item) => item !== null
-      );
+      const pretestData = data.filter((item) => item !== null);
       res.render("new-pretest", { data: pretestData, round });
     })
     .catch((err) => next(err));
@@ -112,15 +111,41 @@ router.get("/new/:round", (req, res, next) => {
 
 router.get("/report", (req, res, next) => {
   // const userId = req.user.ID;
+  let createDate;
   return PretestRecord.findOne({
-    where : {
-      level: 7
+    where: {
+      level: 7,
     },
-    raw: true
+    raw: true,
   })
     .then((record) => {
-      res.send(record)
+      const level = record.level;
+      createDate = new Date(record.createDate).toISOString().split("T")[0];
+      return StudyPlanFourHours.findByPk(level, { raw: true });
     })
+    .then((plan) => {
+      const { grammarWeek, reviewWeek, wordPerWeek } = plan;
+      const totalWeek = grammarWeek + reviewWeek;
+      const grammarHour = grammarWeek * 4;
+      const reviewHour = reviewWeek * 4;
+      const totalHour = totalWeek * 4;
+      const grammarWeek2 = grammarWeek * 2;
+      const reviewWeek2 = reviewWeek * 2;
+      const totalWeek2 = totalWeek * 2;
+      const wordPerWeek2 = wordPerWeek / 2;
+      res.render("pretest-report", {
+        plan,
+        totalWeek,
+        grammarHour,
+        reviewHour,
+        totalHour,
+        createDate,
+        grammarWeek2,
+        reviewWeek2,
+        totalWeek2,
+        wordPerWeek2,
+      });
+    });
 });
 
 router.get("/", (req, res) => {

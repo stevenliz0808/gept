@@ -104,10 +104,10 @@ router.post("/pretest/report", (req, res, next) => {
   const { myAnsArray, myQuesArray, level } = req.body;
 
   return PretestRecord.create({
-    StuAccID: "123",
-    Level: level,
-    MyQuestion: JSON.stringify(myQuesArray),
-    MyAns: JSON.stringify(myAnsArray),
+    stuAccID: "123",
+    level,
+    myQues: JSON.stringify(myQuesArray),
+    myAns: JSON.stringify(myAnsArray),
   })
     .then(() => res.json({ redirect: "/pretest/report" }))
     .catch((err) => next(err));

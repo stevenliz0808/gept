@@ -13,13 +13,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   AbilityTestRecord.init(
     {
-      ID: DataTypes.INTEGER,
-      StuAccID: DataTypes.STRING,
-      Level: DataTypes.INTEGER,
-      MyQuestion: DataTypes.STRING,
-      MyAns: DataTypes.STRING,
-      DoneDate: DataTypes.DATE,
-      CreateDate: {
+      stuAccID: DataTypes.STRING,
+      level: DataTypes.INTEGER,
+      myQues: DataTypes.STRING,
+      myAns: DataTypes.STRING,
+      doneDate: DataTypes.DATE,
+      createDate: {
         type: DataTypes.DATE,
         defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
       },

@@ -48,7 +48,7 @@
           <ul class="pagination">
             
             {{# each data}}
-            <li class="page-item" ><a class="page-link btn" id="question{{this.sort}}" data-question-id={{this.sort}} onclick="showListeningContent({{jsonStringify this}})">{{this.sort}}</a></li>
+            <li class="page-item" ><a class="page-link btn" id="question{{this.sort}}" data-question-id={{this.sort}} onclick="showListeningContent({{this.sort}})">{{this.sort}}</a></li>
             {{/each}}          
           
           </ul>
@@ -67,3 +67,7 @@
     </div>
   </div>
 </section>
+
+<script>
+  const listeningData = {{{jsonStringify data}}}
+</script>

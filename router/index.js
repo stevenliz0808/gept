@@ -3,15 +3,17 @@ const router = express.Router();
 const passport = require("passport");
 const gepttest = require("./gepttest");
 const pretest = require("./pretest");
-const api = require("./api")
+const schedule = require("./schedule");
+const api = require("./api");
 const authHandler = require("../middlewares/auth-handler");
 
 const db = require("../models");
 const User = db.LoginData;
 
-router.use("/gepttest", gepttest);
-router.use("/pretest", pretest);
-router.use("/api", api)
+router.use("/gepttest", authHandler, gepttest);
+router.use("/pretest", authHandler, pretest);
+router.use("/api", api);
+router.use("/schedule", schedule);
 
 router.get("/auth/facebook", passport.authenticate("facebook"));
 
@@ -54,7 +56,7 @@ router.post("/user/confirm", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  const isLogout = true
+  const isLogout = true;
   res.render("index", { isLogout });
 });
 

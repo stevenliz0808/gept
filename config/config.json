@@ -2,7 +2,7 @@
   "development": {
     "username": "apexschool",
     "password": "Ji394w96j0",
-    "database": "AppDB_R",
+    "database": "GEPT",
     "host": "127.0.0.1",
     "dialect": "mssql",
     "define": {

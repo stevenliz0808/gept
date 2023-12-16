@@ -14,7 +14,7 @@ router.get("/listening/start", (req, res) => {
 });
 
 router.get("/listening/new", (req, res, next) => {
-  const id = req.user.ID;
+  const id = "123";
   let GEPTround = 0;
   ListeningTestRecord.findAll({
     attributes: ["Round"],
@@ -50,7 +50,7 @@ router.get("/listening/new", (req, res, next) => {
 });
 
 router.post("/listening/report", (req, res, next) => {
-  const userId = req.user.ID;
+  const userId = "123";
   const { myAns, checkedAns, level, round } = req.body;
   const currentDate = new Date().toLocaleString();
 
@@ -69,7 +69,7 @@ router.post("/listening/report", (req, res, next) => {
 });
 
 router.get("/listening/report", (req, res, next) => {
-  const userId = req.user.ID;
+  const userId = "123";
 
   return ListeningTestRecord.findAll({
     attributes: ["Round", "Level", "MyAns", "CheckedAns", "createDate"],

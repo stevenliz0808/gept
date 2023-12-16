@@ -105,7 +105,7 @@ function main() {
 
     if (btnHandout) {
       btnHandout.addEventListener("click", (event) => {
-        if (myAnsArray.includes()) {
+        if (myAnsArray.filter((e) => e != "").length !== listeningData.length) {
           window.alert("尚未完成作答!");
           return event.preventDefault();
         }
@@ -192,7 +192,8 @@ function createCounter(element, options = {}) {
   }, interval);
 }
 
-function showListeningContent(data) {
+function showListeningContent(index) {
+  const data = listeningData[index - 1];
   const topic = document.querySelector(".topic");
   const answer = document.querySelector(".answer");
 
@@ -233,15 +234,18 @@ function showListeningContent(data) {
           <button class="btn option" name=${data.sort} value="1">A</button>
           <button class="btn option" name=${data.sort} value="2">B</button>
           <button class="btn option" name=${data.sort} value="3">C</button>
-          <button class="btn btn-primary next-question" onclick="nextQuestion(${data.sort})" disabled>下一題</button>
         </div>`;
   } else {
     answer.innerHTML += `<div class="options-container">         
           <button class="btn option" name=${data.sort} value="1">${data.ans1}</button>
           <button class="btn option" name=${data.sort} value="2">${data.ans2}</button>
           <button class="btn option" name=${data.sort} value="3">${data.ans3}</button>
-          <button class="btn btn-primary next-question" onclick="nextQuestion(${data.sort})" disabled>下一題</button>
         </div>`;
+  }
+
+  const optionsContainer = document.querySelector(".options-container");
+  if (data.sort !== listeningData.length) {
+    optionsContainer.innerHTML += `<button class="btn btn-primary next-question" onclick="nextQuestion(${data.sort})" disabled>下一題</button>`;
   }
 
   //儲存解答
@@ -261,8 +265,8 @@ function showPretestContent(data) {
         <button class="btn option" name=${currentIndex} value="1">${data.Ans1}</button>
         <button class="btn option" name=${currentIndex} value="2">${data.Ans2}</button>
       </div>`;
-  
-  const optionsContainer = pretest.querySelector(".options-Container")
+
+  const optionsContainer = pretest.querySelector(".options-Container");
   if (data.Ans3) {
     optionsContainer.innerHTML += `<button class="btn option" name=${currentIndex} value="3">${data.Ans3}</button>`;
   }
@@ -273,7 +277,6 @@ function showPretestContent(data) {
   <button class="btn btn-primary next-question" onclick="nextPretestQuestion()" disabled>下一題</button>`;
   //儲存解答
   standardAnsArray[currentIndex - 1] = data.StandardAns;
-  console.log(standardAnsArray)
   //儲存題目ID
   myQuesArray[currentIndex - 1] = data.ID;
 }
@@ -284,17 +287,14 @@ async function nextPretestQuestion() {
     const accuracy =
       checkedAnsArray.filter((e) => e.includes("O")).length /
       checkedAnsArray.filter((e) => e !== undefined).length;
-    console.log(checkedAnsArray.filter((e) => e.includes("O")).length);
-    console.log(checkedAnsArray.filter((e) => e !== undefined).length);
-    console.log(accuracy);
 
     if (accuracy < 0.6 && level > 1) {
       loseTimes++;
       if (winTimes > 0 && loseTimes > 0) {
-        const ansData = { myAnsArray, myQuesArray, level: level -1 };
+        const ansData = { myAnsArray, myQuesArray, level: level - 1 };
         return axios
           .post("/api/pretest/report", ansData)
-          .then(res => window.location.href = res.data.redirect)
+          .then((res) => (window.location.href = res.data.redirect))
           .catch((err) => console.error("Error saving data:", err));
       }
       await axios.get(`/api/pretest/${level - 1}`).then((res) => {
@@ -307,9 +307,8 @@ async function nextPretestQuestion() {
         const ansData = { myAnsArray, myQuesArray, level: level };
         return axios
           .post("/api/pretest/report", ansData)
-          .then(res => {
-            window.location.href = res.data.redirect
-            console.log(res.data.redirect)
+          .then((res) => {
+            window.location.href = res.data.redirect;
           })
           .catch((err) => console.error("Error saving data:", err));
       }
@@ -321,7 +320,7 @@ async function nextPretestQuestion() {
       const ansData = { myAnsArray, myQuesArray, level };
       return axios
         .post("/api/pretest/report", ansData)
-        .then(res => window.location.href = res.data.redirect)
+        .then((res) => (window.location.href = res.data.redirect))
         .catch((err) => console.error("Error saving data:", err));
     }
     standardAnsArray.length = 0;

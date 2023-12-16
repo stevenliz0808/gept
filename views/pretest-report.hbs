@@ -26,17 +26,31 @@
       </div>
       <div class="tab-pane fade" id="nav-lite" role="tabpanel" aria-labelledby="nav-lite-tab">
         <p>每周上課時數：2小時</p>
-        <p>文法學習週數：{{grammarWeek2}} (40小時)</p>
-        <p>總複習＆實戰：{{reviewWeek2}}週 (48小時)</p>
-        <p>累計上課週數：{{totalWeek2}}週 (88小時)</p>
+        <p>文法學習週數：{{grammarWeek2}}週 ({{grammarHour}}小時)</p>
+        <p>總複習＆實戰：{{reviewWeek2}}週 ({{reviewHour}}小時)</p>
+        <p>累計上課週數：{{totalWeek2}}週 ({{totalHour}}小時)</p>
         <p>每週學習單字：{{wordPerWeek2}}</p>
         <p>每週克漏篇數：{{plan.missingWordPerWeek}}篇</p>
         <p>每週閱讀篇數：{{plan.readingPerWeek}}篇</p>
       </div>
     </div>
     <hr>
-    <h5>將由AI為您安排最適合您的課程!</h5>
-    <h5>請問您的學習起始日為? <input type="date" class="form-control w-50 mt-3" name="startdate" value="{{createDate}}"></h5>
-    <button class="btn btn-success btn-lg mt-2 mb-2">開始規劃</button>
+    <form action="/schedule" method="post">
+      <h3 class="mb-4 text-decoration-underline fw-bold">將由AI為您安排最適合的課程!</h3>
+      <div class="mb-3">
+        <label for="startDateInput" class="form-label">您的學習起始日:</label>
+        <input id="startDateInput" type="date" class="form-control w-50" name="startDate" value="{{createDate}}">
+      </div>
+      
+      <div class="mb-3">
+        <label for="versionSelect" class="form-label">您要選擇的版本:</label>
+        <select id="versionSelect" class="form-select w-50" name="version">
+          <option value="standard">標準版</option>
+          <option value="lite">輕量版</option>
+        </select>
+      </div>
+      <input type="text" name="level" value="{{plan.level}}" hidden>
+      <button type="submit" class="btn btn-success btn-lg mt-2 mb-2">開始規劃</button>
+    </form>
   </div>
 </section>

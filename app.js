@@ -11,7 +11,7 @@ const handlebarsHelpers = require("./helpers/handlebars-helpers");
 const hbsHandler = require("./middlewares/hbs-handler")
 const errorHandler = require("./middlewares/error-handler");
 
-const port = 3000;
+const port = 3008;
 
 app.engine(
   ".hbs",

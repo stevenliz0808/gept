@@ -6,7 +6,6 @@ body {
 
 section {
   width: 100%;
-  max-width: 1350px;
   margin: 0 auto;
 }
 
@@ -22,6 +21,7 @@ hr {
 .navbar-brand img {
   width: 20vw;
   min-width: 200px;
+  max-height: 80px;
 }
 
 .nav-link {
@@ -31,7 +31,7 @@ hr {
 .navbar-toggler {
   position: absolute;
   right: 10px;
-  top: 8px;
+  top: 30px;
 }
 
 #user-name {
@@ -54,7 +54,6 @@ hr {
 .btn {
   min-width: 60px;
 }
-
 select,
 input {
   min-width: 130px;
@@ -202,6 +201,11 @@ th {
   text-decoration: none;
 }
 
+.list-group-item a {
+  text-decoration: none;
+  color: #212529;
+}
+
 /* new pretest page */
 .pretest h3 {
   font-weight: bold;
@@ -214,7 +218,7 @@ th {
   }
 
   .background-image img {
-    content: url("/images/welcome-GEPT-pc.png");
+    content: url("/images/index-pc.png");
   }
 
   .topic,
@@ -224,5 +228,9 @@ th {
 
   .pretest .options-container {
     justify-content: center;
+  }
+
+  .btn-login {
+    min-width: 87px;
   }
 }

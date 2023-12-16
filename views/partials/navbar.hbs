@@ -1,34 +1,36 @@
-<nav class="navbar navbar-expand-lg navbar-light ">
+<nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/gepttest">
-      <img src="/images/logo-kconline.png" alt="logo" />
+    <a class="navbar-brand" href="/">
+      <img src="/images/logo.png" alt="logo" />
     </a>
     {{#unless isLogout}}
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarTogglerDemo02"
+        aria-controls="navbarTogglerDemo02"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="/pretest/create">分級測驗</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">進入課程</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/gepttest/listening/start">模擬測驗</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">教師派卷 </a>
-        </li>
-        <a href="/logout" class="btn btn-warning d-lg-none">登出</a>
-      </ul>
-    </div>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/pretest/create">能力檢測</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/gepttest/listening/start">模擬測驗</a>
+          </li>
+          <a href="/logout" class="btn btn-warning d-lg-none">登出</a>
+        </ul>
+      </div>
     {{/unless}}
     <div class="d-flex align-items-center">
-      <p id="user-name" class="d-none d-lg-block">{{userName}}</p>
-      {{!-- {{> login}} --}}
+      <p id="user-name" class="d-none d-lg-block">{{userName}}</p> 
+      {{> login}}
     </div>
   </div>
 </nav>

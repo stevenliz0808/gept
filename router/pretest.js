@@ -114,7 +114,7 @@ router.get("/report", (req, res, next) => {
   let createDate;
   return PretestRecord.findOne({
     where: {
-      level: 7,
+      level: 9,
     },
     raw: true,
   })

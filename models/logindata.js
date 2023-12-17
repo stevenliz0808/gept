@@ -13,36 +13,15 @@ module.exports = (sequelize, DataTypes) => {
   }
   TPELoginData.init(
     {
-      ID: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-      },
-      Identity: DataTypes.INTEGER,
-      Name: DataTypes.STRING,
-      NameEng: DataTypes.STRING,
-      SchoolName: DataTypes.STRING,
-      SchoolNo: DataTypes.STRING,
-      ClassName: DataTypes.STRING,
-      Mobile: DataTypes.STRING,
-      MobileUse: DataTypes.STRING,
-      Email: DataTypes.STRING,
-      Address: DataTypes.STRING,
-      LineID: DataTypes.STRING,
-      ImgPath: DataTypes.STRING,
-      StudyStage: DataTypes.STRING,
-      Gender: DataTypes.STRING,
-      Expertise: DataTypes.STRING,
-      City: DataTypes.STRING,
-      Town: DataTypes.STRING,
-      CreateDate: {
-        type: DataTypes.DATE,
-        defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
-      },
+      name: DataTypes.STRING,
+      password: DataTypes.STRING,
+      createdAt: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: "LoginData",
       tableName: "TPELoginData",
+      underscored: true
     }
   );
   return TPELoginData;

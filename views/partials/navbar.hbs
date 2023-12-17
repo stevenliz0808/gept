@@ -3,7 +3,7 @@
     <a class="navbar-brand" href="/">
       <img src="/images/logo.png" alt="logo" />
     </a>
-    {{#unless isLogout}}
+    {{#if userName}}
       <button
         class="navbar-toggler"
         type="button"
@@ -19,15 +19,15 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="/pretest/create">能力檢測</a>
+            <a class="nav-link" href="/pretest/create">分級測驗</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/gepttest/listening/start">模擬測驗</a>
+            <a class="nav-link" href="/gepttest/listening/start">聽力測驗</a>
           </li>
           <a href="/logout" class="btn btn-warning d-lg-none">登出</a>
         </ul>
       </div>
-    {{/unless}}
+    {{/if}}
     <div class="d-flex align-items-center">
       <p id="user-name" class="d-none d-lg-block">{{userName}}</p> 
       {{> login}}

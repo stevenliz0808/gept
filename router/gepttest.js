@@ -14,7 +14,7 @@ router.get("/listening/start", (req, res) => {
 });
 
 router.get("/listening/new", (req, res, next) => {
-  const id = "123";
+  const id = req.user.id;
   let GEPTround = 0;
   ListeningTestRecord.findAll({
     attributes: ["Round"],
@@ -50,7 +50,7 @@ router.get("/listening/new", (req, res, next) => {
 });
 
 router.post("/listening/report", (req, res, next) => {
-  const userId = "123";
+  const userId = req.user.id;
   const { myAns, checkedAns, level, round } = req.body;
   const currentDate = new Date().toLocaleString();
 
@@ -69,7 +69,8 @@ router.post("/listening/report", (req, res, next) => {
 });
 
 router.get("/listening/report", (req, res, next) => {
-  const userId = "123";
+  const userId = req.user.id;
+  const duration = res.locals.duration;
 
   return ListeningTestRecord.findAll({
     attributes: ["Round", "Level", "MyAns", "CheckedAns", "createDate"],
@@ -187,40 +188,10 @@ router.get("/listening/report", (req, res, next) => {
         thisDate,
         lastDate,
         firstDate,
+        duration
       });
     })
     .catch((err) => next(err));
-});
-
-router.get("/reading/start", (req, res) => {
-  res.render("start-test");
-});
-
-router.get("/reading/new", (req, res) => {
-  return ListeningData.findAll({
-    attributes: [
-      "ans1",
-      "ans2",
-      "ans3",
-      "imgPath",
-      "standardAns",
-      "sort",
-      "type",
-      "voicePath",
-      "GEPTround",
-    ],
-    where: { GEPTround: 1 },
-    order: ["sort"],
-    raw: true,
-  })
-    .then((listeningData) => {
-      res.render("new-", { listeningData });
-    })
-    .catch((err) => next(err));
-});
-
-router.get("/reading/report", (req, res) => {
-  res.render("reading-report");
 });
 
 router.get("/", (req, res) => {

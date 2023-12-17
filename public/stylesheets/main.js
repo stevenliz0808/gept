@@ -148,19 +148,6 @@ function main() {
       $("#user-name").toggle();
     });
   }
-
-  if (twzipcode) {
-    $("#twzipcode").twzipcode({
-      countyName: "city",
-      districtName: "town",
-    });
-
-    const selectElements = document
-      .querySelectorAll("select")
-      .forEach((selectElement) => {
-        selectElement.required = true;
-      });
-  }
 }
 
 // 倒數計時器

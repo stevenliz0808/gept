@@ -100,11 +100,11 @@ router.get("/pretest/:round", (req, res, next) => {
 });
 
 router.post("/pretest/report", (req, res, next) => {
-  // const userId = req.user.ID;
+  const userId = req.user.id;
   const { myAnsArray, myQuesArray, level } = req.body;
 
   return PretestRecord.create({
-    stuAccID: "123",
+    userId,
     level,
     myQues: JSON.stringify(myQuesArray),
     myAns: JSON.stringify(myAnsArray),

@@ -110,17 +110,17 @@ router.get("/new/:round", (req, res, next) => {
 });
 
 router.get("/report", (req, res, next) => {
-  // const userId = req.user.ID;
-  let createDate;
+  const userId = req.user.id;
+  let createdAt;
   return PretestRecord.findOne({
     where: {
-      level: 9,
+      userId
     },
     raw: true,
   })
     .then((record) => {
       const level = record.level;
-      createDate = new Date(record.createDate).toISOString().split("T")[0];
+      createdAt = new Date(record.createdAt).toISOString().split("T")[0];
       return StudyPlanFourHours.findByPk(level, { raw: true });
     })
     .then((plan) => {
@@ -139,7 +139,7 @@ router.get("/report", (req, res, next) => {
         grammarHour,
         reviewHour,
         totalHour,
-        createDate,
+        createdAt,
         grammarWeek2,
         reviewWeek2,
         totalWeek2,

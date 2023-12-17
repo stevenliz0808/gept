@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
 const passport = require("passport");
 const gepttest = require("./gepttest");
 const pretest = require("./pretest");
@@ -7,13 +8,48 @@ const schedule = require("./schedule");
 const api = require("./api");
 const authHandler = require("../middlewares/auth-handler");
 
-const db = require("../models");
-const User = db.LoginData;
+const { LoginData } = require("../models");
 
 router.use("/gepttest", authHandler, gepttest);
 router.use("/pretest", authHandler, pretest);
 router.use("/api", api);
 router.use("/schedule", schedule);
+
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", {
+    failureRedirect: "/",
+    failureFlash: true,
+  })(req, res, (err) => {
+    if (!err) {
+      req.flash("success", "登入成功");
+    }
+    res.redirect("/");
+  });
+});
+
+
+router.post("/signup", (req, res, next) => {
+  const { name, password } = req.body;
+  return LoginData.findOne({
+    where: { name },
+    raw: true,
+  })
+    .then((user) => {
+      if (user) throw new Error("用戶已存在");
+      return bcrypt.hash(password, 5);
+    })
+    .then((hash) => {
+      LoginData.create({
+        name,
+        password: hash,
+      });
+    })
+    .then(() => {
+      req.flash("success", "註冊成功");
+      res.redirect("/");
+    })
+    .catch((err) => next(err));
+});
 
 router.get("/auth/facebook", passport.authenticate("facebook"));
 
@@ -33,26 +69,6 @@ router.get("/logout", (req, res) => {
     req.flash("success", "登出成功");
     res.redirect("/");
   });
-});
-
-router.post("/user/confirm", (req, res) => {
-  const id = req.user.ID;
-  const { name, nameEng, city, town } = req.body;
-  console.log(name, nameEng, city, town);
-  return User.findByPk(id)
-    .then((user) => {
-      if (!user) {
-        throw new Error("用戶不存在");
-      }
-      return user.update({
-        Name: name,
-        NameEng: nameEng,
-        City: city,
-        Town: town,
-      });
-    })
-    .then(() => res.redirect("/gepttest/listening/start"))
-    .catch((err) => next(err));
 });
 
 router.get("/", (req, res) => {
